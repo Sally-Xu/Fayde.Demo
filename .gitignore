@@ -1,0 +1,6 @@
+/packages
+obj
+bin
+/Controls.Demo/*.user
+/Controls.Demo/*.suo
+/*.suo
