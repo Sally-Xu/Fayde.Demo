@@ -6,15 +6,13 @@
   <Page.DataContext>
     <viewmodels:TabViewModel></viewmodels:TabViewModel>
   </Page.DataContext>
-  <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-            
-        <controls:TabControl Margin="5" Grid.Row="0" x:Name="Tab1"  >
+  <StackPanel>
+
+    <TextBlock Style="{StaticResource HeaderTextStyle}">
+      This is a TabControl Demo. 
+    </TextBlock>
+    
+        <controls:TabControl Margin="5" x:Name="Tab1"  >
             <controls:TabItem Header="One">
                 <TextBlock Text="Tab One Content" />
             </controls:TabItem>
@@ -60,13 +58,12 @@
         </controls:TabControl>
         
 		<Button
-              Grid.Row="1"
               Margin="5"
               Content="Dynamically adds TabItem to TabControl Below" 
               Command="{Binding AddTabCommand}"/>
 
     <controls:TabControl TabStripPlacement="Right"
-                         Grid.Row="3" Margin="5" ItemsSource="{Binding Tabs}" >
+                         Margin="5" ItemsSource="{Binding Tabs}" >
     </controls:TabControl>
-  </Grid>
+  </StackPanel>
 </Page>

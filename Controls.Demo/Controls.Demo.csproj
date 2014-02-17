@@ -59,7 +59,7 @@
     <TypeScriptCompile Include="lib\Fayde\Fayde.d.ts" />
     <TypeScriptCompile Include="lib\requirejs\require.d.ts" />
     <TypeScriptCompile Include="Models\TreeData.ts" />
-    <TypeScriptCompile Include="ViewModels\DafaultViewModel.ts" />
+    <TypeScriptCompile Include="ViewModels\DefaultViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\TabViewModel.ts" />
   </ItemGroup>
   <ItemGroup>
