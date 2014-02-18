@@ -2431,15 +2431,19 @@ var Fayde;
                 case 2 /* TouchUp */:
                     x.OnTouchUp(args);
                     x.TouchUp.Raise(x, args);
+                    break;
                 case 3 /* TouchMove */:
                     x.OnTouchMove(args);
                     x.TouchMove.Raise(x, args);
+                    break;
                 case 4 /* TouchEnter */:
                     x.OnTouchEnter(args);
                     x.TouchEnter.Raise(x, args);
+                    break;
                 case 5 /* TouchLeave */:
                     x.OnTouchLeave(args);
                     x.TouchLeave.Raise(x, args);
+                    break;
                 default:
                     return false;
             }

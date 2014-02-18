@@ -14,7 +14,7 @@ class DefaultViewModel extends Fayde.MVVM.ViewModelBase {
         var item = new MenuItem("Controls");
         this.Menu.Add(item);
         item.Children.Add(new MenuItem("Input Controls", "Input"));
-
+        item.Children.Add(new MenuItem("Drawing Pad", "DrawingPad"));
         item.Children.Add(new MenuItem("ItemsControl", "ItemsControl"));
         item.Children.Add(new MenuItem("DatePicker", "DatePicker"));
         item.Children.Add(new MenuItem("Calendar", "Calendar"));

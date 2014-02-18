@@ -1,7 +1,7 @@
 ﻿<Page xmlns="http://schemas.wsick.com/fayde"
       xmlns:x="http://schemas.wsick.com/fayde/x"
       xmlns:controls="lib:Fayde.Controls"
-      Title="Input Controls">
+      Title="Input Controls Demo">
   <Page.Resources>
     
     <Style TargetType="TextBox">
@@ -20,7 +20,7 @@
   
     <StackPanel Margin="5">
       <TextBlock Text="TextBlock" />
-      <TextBlock Text="This is a TextBlock" />
+      <TextBlock Text="This is a TextBlock"  />
       <TextBlock Text="This is a Multiline TextBlock" />
 
       <TextBlock Text="TextBox" />
@@ -51,9 +51,9 @@
       <CheckBox Content="Optoin3" />
 
       <TextBlock Text="RadioButtons" />
-      <RadioButton Content="Option1" />
-      <RadioButton Content="Option2" />
-      <RadioButton Content="Option3" />
-      <RadioButton Content="Option3" />
+      <RadioButton GroupName="g" Content="Option1" />
+      <RadioButton GroupName="g" Content="Option2" />
+      <RadioButton GroupName="g2" Content="Option3" />
+      <RadioButton GroupName="g3" Content="Option3" />
     </StackPanel>
 </Page>

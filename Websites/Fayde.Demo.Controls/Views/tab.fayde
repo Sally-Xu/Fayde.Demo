@@ -2,17 +2,17 @@
       xmlns:x="http://schemas.wsick.com/fayde/x"
       xmlns:controls="lib:Fayde.Controls"
       xmlns:viewmodels="ViewModels"
-      Title="Tab Controls">
+      Title="Tab Controls Demo">
   <Page.DataContext>
     <viewmodels:TabViewModel></viewmodels:TabViewModel>
   </Page.DataContext>
-  <StackPanel>
-
-    <TextBlock Style="{StaticResource HeaderTextStyle}">
-      This is a TabControl Demo. 
-    </TextBlock>
-    
-        <controls:TabControl Margin="5" x:Name="Tab1"  >
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <controls:TabControl Margin="5" x:Name="Tab1"  >
             <controls:TabItem Header="One">
                 <TextBlock Text="Tab One Content" />
             </controls:TabItem>
@@ -49,13 +49,13 @@
             </controls:TabItem>
         </controls:TabControl>
         
-		<Button
+		<Button Grid.Row="1"
               Margin="5"
               Content="Dynamically adds TabItem to TabControl Below" 
               Command="{Binding AddTabCommand}"/>
 
-    <controls:TabControl TabStripPlacement="Right"
+    <controls:TabControl Grid.Row="2" TabStripPlacement="Right"
                          Margin="5" ItemsSource="{Binding Tabs}" >
     </controls:TabControl>
-  </StackPanel>
+  </Grid>
 </Page>

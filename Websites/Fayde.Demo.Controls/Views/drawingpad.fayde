@@ -1,0 +1,48 @@
+﻿<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:controls="Controls"
+      xmlns:viewmodels="ViewModels"
+      Title="DrawingPad Demo">
+  <Page.DataContext>
+    <viewmodels:DrawingPadViewModel/>
+  </Page.DataContext>
+  <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition Width="150">
+        </ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>      
+        <RowDefinition Height="*"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+      </Grid.RowDefinitions>     
+      <Border CornerRadius="5" BorderThickness="2" BorderBrush="DarkSalmon" Background="Cyan" >
+        <controls:DrawingPad></controls:DrawingPad>
+      </Border>
+      <StackPanel Grid.Column="1" Grid.RowSpan="2">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Margin="5" Text="Pen Width:"></TextBlock>
+          <TextBox x:Name="PenWidth" Margin="5" Text="{Binding PenWidth, Mode=TwoWay}" Width="50" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Margin="5" Text="Pen Pressure:"></TextBlock>
+          <TextBlock x:Name="PF" Height="20" Margin="5" Text="1" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Margin="5" Text="Replay Speed (X):"></TextBlock>
+          <TextBox Margin="5" Text="{Binding ReplaySpeed, Mode=TwoWay}" Width="20"/>
+        </StackPanel>
+        <TextBlock Margin="5" Text="File Name:"></TextBlock>
+        <TextBox x:Name="FileName" Margin="5" Text="Test"/>
+        <Button  x:Name="NewButton" Margin="5" Height="20" Content="New" ></Button>
+        <Button x:Name="ClearButton" Margin="5" Height="20" Content="Clear" Command="{Binding ClearCommand}" ></Button>
+        <Button x:Name="LoadButton" Margin="5" Height="20" Content="Load" ></Button>
+        <Button x:Name="SaveButton"  Margin="5" Height="20" Content="Save" ></Button>
+        <Button x:Name="ConvertButton" Margin="5" Height="20" Content="Convert to PNG" ></Button>
+        <Button x:Name="ReplayButton" Margin="5" Height="20" Content="Replay" ></Button>
+      </StackPanel>
+      <Border Grid.Row="1"  BorderBrush="Black"  BorderThickness="2" CornerRadius="5" x:Name="ImgHolder">
+      </Border>
+    </Grid>   
+
+</Page>

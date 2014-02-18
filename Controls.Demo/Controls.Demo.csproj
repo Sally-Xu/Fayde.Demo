@@ -47,6 +47,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\drawingpad.fayde" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -55,11 +56,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Controls\DrawingPad.ts" />
     <TypeScriptCompile Include="lib\Fayde.Controls\Fayde.Controls.Ex.d.ts" />
+    <TypeScriptCompile Include="lib\Fayde\Clipboard.ts" />
     <TypeScriptCompile Include="lib\Fayde\Fayde.d.ts" />
     <TypeScriptCompile Include="lib\requirejs\require.d.ts" />
     <TypeScriptCompile Include="Models\TreeData.ts" />
     <TypeScriptCompile Include="ViewModels\DefaultViewModel.ts" />
+    <TypeScriptCompile Include="ViewModels\DrawingPadViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\TabViewModel.ts" />
   </ItemGroup>
   <ItemGroup>

@@ -91,10 +91,9 @@
           </StackPanel>
       </Border>
       
-      <Grid Grid.Row="1" Style="{StaticResource SubHeaderStyle}">
-          <StackPanel Style="{StaticResource SubHeaderStackPanelStyle}">
-            <HyperlinkButton NavigateUri="mailto:fayde@gmail.com" TargetName="_blank" Content="Report Bug to Fayde"/>
-          </StackPanel>
+      <Grid Grid.Row="1" Style="{StaticResource SubHeaderStyle}">    
+        <TextBlock Text="{Binding ElementName=ContentFrame, Path=Content.Title}" Margin="260,0,0,0" FontSize="20" FontWeight="Bold"/>          
+        <HyperlinkButton NavigateUri="http://fayde.wsick.com/" HorizontalAlignment="Right" Margin="0,0,10,0" TargetName="_blank" VerticalAlignment="Center" Content="What is Fayde"/>
       </Grid>
       
       <Grid Grid.Row="2">
@@ -107,7 +106,7 @@
           <controls:TreeView ItemsSource="{Binding Menu}">
             <controls:TreeView.ItemTemplate>
               <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">                  
                   <HyperlinkButton NavigateUri="{Binding Url}" Content="{Binding Header}" TargetName="ContentFrame" />
                 </StackPanel>
               </HierarchicalDataTemplate>

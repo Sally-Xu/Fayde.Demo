@@ -2,7 +2,7 @@
       xmlns:x="http://schemas.wsick.com/fayde/x"
       xmlns:controls="lib:Fayde.Controls"
       xmlns:system="lib:Fayde"
-      Title="Home">
+      Title="TreeView Demo">
   <StackPanel>
     <!-- Basic TreeView -->
     <TextBlock Style="{StaticResource HeaderTextStyle}">

@@ -53,7 +53,7 @@
 
   <!-- Branding Border Style -->
   <Style x:Key="BrandingBorderStyle" TargetType="Border">
-    <Setter Property="Height" Value="100"/>
+    <Setter Property="Height" Value="70"/>
     <Setter Property="Background" Value="{StaticResource NavigationBackgroundColorBrush}"/>
   </Style>
 
@@ -63,15 +63,10 @@
   </Style>
 
   <Style x:Key="SubHeaderStyle" TargetType="Grid">
-    <Setter Property="Background" Value="{StaticResource NavigationBackgroundColorBrush}"/>
+    <Setter Property="Background" Value="Yellow"/>
+    <Setter Property="Height" Value="30"/>
   </Style>
   
-  <Style x:Key="SubHeaderStackPanelStyle" TargetType="StackPanel">
-    <Setter Property="Orientation" Value="Horizontal"/>
-    <Setter Property="HorizontalAlignment" Value="Right"/>
-    <Setter Property="Margin" Value="5 0 5 0"/>
-  </Style>
-
   <Style x:Key="TreeMemuStyle" TargetType="controls:TreeView">
     <Setter Property="VerticalAlignment" Value="Top"/>
   </Style>
