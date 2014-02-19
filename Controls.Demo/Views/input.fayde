@@ -3,9 +3,6 @@
       xmlns:controls="lib:Fayde.Controls"
       xmlns:viewmodels="ViewModels"
       Title="Input Controls Demo">
-  <Page.DataContext>
-    <viewmodels:InputViewModel/>
-  </Page.DataContext>
   <Page.Resources>
     
     <Style TargetType="TextBox">
@@ -59,7 +56,5 @@
       <RadioButton GroupName="g" Content="Option2" />
       <RadioButton GroupName="g" Content="Option3" />
 
-      <Listbox Style="{StaticResource RadioButtonList}" ItemsSource="{Binding }">
-      </Listbox>
     </StackPanel>
 </Page>
