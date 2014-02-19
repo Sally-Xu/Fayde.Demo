@@ -13,6 +13,7 @@
       <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
           <ResourceDictionary Source="Assets/Styles.fayde"/>
+          <ResourceDictionary Source="Assets/CustomListBoxStyles.fayde"/>
           <!--<ResourceDictionary Source="Assets/Converters.fayde"/>-->
         </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary> 

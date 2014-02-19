@@ -1,0 +1,62 @@
+﻿<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:viewmodels="ViewModels"
+      Title="ItemsControl Demo">
+  <Page.DataContext>
+    <viewmodels:ItemsControlViewModel/>
+  </Page.DataContext>
+  <Page.Resources>
+  <Style TargetType="ListBox">
+    <Setter Property="Margin" Value="3"/>
+  </Style>
+    
+  </Page.Resources>
+    <StackPanel Margin="5">
+
+      <TextBlock Text="ListBox - MultiSelection Mode"/>
+      <ListBox ItemsSource="{Binding CheckBoxListSelection}" SelectionMode="Extended">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Name}"/>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+
+      <TextBlock Text="Checkbox List (Multiple Selection List)"/>
+      <ListBox Style="{StaticResource CheckBoxList}" ItemsSource="{Binding CheckBoxListSelection}"  SelectedItems="{Binding SelectedItems}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Name}"/>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+
+      
+      <TextBlock Text="ListBox - SingleSelection Mode, All 3 controls below share the same ItemsSource and SelectedItem with the ListBox above to show how Binding works"/>
+      <ListBox ItemsSource="{Binding RadioButtonListSelection}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Name}"/>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+
+      <TextBlock Text="ComboBox "/>
+      <ComboBox ItemsSource="{Binding RadioButtonListSelection}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Name}"/>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+
+      <TextBlock Text="RadioButton List (Single Selection List)"/>
+      <ListBox Style="{StaticResource RadioButtonList}" ItemsSource="{Binding RadioButtonListSelection}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Name}"/>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </StackPanel>
+</Page>

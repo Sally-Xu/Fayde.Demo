@@ -36,6 +36,7 @@
     <Content Include="packages.config" />
     <Content Include="Assets\Converters.fayde" />
     <Content Include="Assets\Styles.fayde" />
+    <Content Include="Assets\CustomListBoxStyles.fayde" />
     <None Include="faydedemo - FTP.pubxml" />
     <None Include="faydedemo - Web Deploy.pubxml" />
     <None Include="FileSystem.pubxml" />
@@ -48,6 +49,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\drawingpad.fayde" />
+    <Content Include="Views\itemscontrol.fayde" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -61,9 +63,11 @@
     <TypeScriptCompile Include="lib\Fayde\Clipboard.ts" />
     <TypeScriptCompile Include="lib\Fayde\Fayde.d.ts" />
     <TypeScriptCompile Include="lib\requirejs\require.d.ts" />
+    <TypeScriptCompile Include="Models\TestData.ts" />
     <TypeScriptCompile Include="Models\TreeData.ts" />
     <TypeScriptCompile Include="ViewModels\DefaultViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\DrawingPadViewModel.ts" />
+    <TypeScriptCompile Include="ViewModels\ItemsControlViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\TabViewModel.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -119,7 +123,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fayde.0.9.7.19\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.7.19\build\Fayde.targets'))" />
-    <Error Condition="!Exists('..\packages\Fayde.0.9.7.22\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.7.22\build\Fayde.targets'))" />
+    <Error Condition="!Exists('..\packages\Fayde.0.9.7.26\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.7.26\build\Fayde.targets'))" />
   </Target>
-  <Import Project="..\packages\Fayde.0.9.7.22\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.7.22\build\Fayde.targets')" />
+  <Import Project="..\packages\Fayde.0.9.7.26\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.7.26\build\Fayde.targets')" />
 </Project>
