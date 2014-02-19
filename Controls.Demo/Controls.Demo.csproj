@@ -29,7 +29,9 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\home.fayde" />
+    <Content Include="Views\home.fayde">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="default.fap">
       <SubType>Designer</SubType>
     </Content>
@@ -50,6 +52,7 @@
     </Content>
     <Content Include="Views\drawingpad.fayde" />
     <Content Include="Views\itemscontrol.fayde" />
+    <Content Include="Views\localization.fayde" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -68,12 +71,51 @@
     <TypeScriptCompile Include="ViewModels\DefaultViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\DrawingPadViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\ItemsControlViewModel.ts" />
+    <TypeScriptCompile Include="ViewModels\LocalizationViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\TabViewModel.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Images\" />
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\cn\AppRC.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\en\AppRC.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>AppRC.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\en\AppRC.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppRC.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\fr\AppRC.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppRC.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\gr\AppRC.designer.cs">
+      <DependentUpon>AppRC.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\fr\AppRC.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>AppRC.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\gr\AppRC.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>AppRC.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

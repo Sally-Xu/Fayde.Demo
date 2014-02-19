@@ -1,0 +1,21 @@
+﻿<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:viewmodels="ViewModels"
+      Title="Localization Demo">
+  <Page.DataContext>
+    <viewmodels:LocalizationViewModel/>
+  </Page.DataContext>
+  <Page.Resources>
+    <Style TargetType="Control">
+      <Setter Property="Margin" Value="3, 10, 3, 10"/>
+    </Style>    
+  </Page.Resources>
+  <StackPanel Margin="5">
+        <ComboBox ItemsSource="{Binding Languages}" Grid.Row="0" HorizontalAlignment="Left" SelectionChanged="LangCombo_SelectionChanged" DisplayMemberPath="Name"/>   
+        
+        <TextBlock Text="{Binding AppRC.AppName}"/>
+
+        <TextBlock Text="{Binding AppRC.English}"/>
+
+	</StackPanel>
+</Page>
