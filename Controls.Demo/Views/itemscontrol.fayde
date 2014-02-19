@@ -30,7 +30,6 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
-
       
       <TextBlock Text="ListBox - SingleSelection Mode, All 3 controls below share the same ItemsSource and SelectedItem with the ListBox above to show how Binding works"/>
       <ListBox ItemsSource="{Binding RadioButtonListSelection}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
