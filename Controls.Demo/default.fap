@@ -6,7 +6,7 @@
     xmlns:views="Views"
     xmlns:viewmodels="ViewModels"
     xmlns:controls="lib:Fayde.Controls"
-    Theme="lib/Fayde/Theme.Silverlight.xml">
+    Theme="Metro">
   
     <Application.Resources>
       

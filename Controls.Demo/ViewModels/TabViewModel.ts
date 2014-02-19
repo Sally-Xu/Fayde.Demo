@@ -1,4 +1,4 @@
-/// <reference path="../lib/Fayde.Controls/Fayde.Controls.Ex.d.ts" />
+/// <reference path="../lib/Fayde.Controls/Fayde.Controls.d.ts" />
 /// <reference path="../lib/Fayde/Fayde.d.ts" />
 
 class TabViewModel extends Fayde.MVVM.ViewModelBase {

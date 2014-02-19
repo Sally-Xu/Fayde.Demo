@@ -18,14 +18,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="default.html" />
-    <Content Include="lib\Fayde.Controls\generic.xml" />
-    <Content Include="lib\Fayde.Controls\source.js" />
+    <Content Include="lib\Fayde.Controls\Default.theme.xml" />
+    <Content Include="lib\Fayde.Controls\Fayde.Controls.js" />
+    <Content Include="lib\Fayde.Controls\Metro.theme.xml" />
+    <Content Include="lib\Fayde\Default.theme.xml" />
     <Content Include="lib\Fayde\Fayde.js" />
-    <Content Include="lib\Fayde\Theme.Metro.xml" />
-    <Content Include="lib\Fayde\Theme.Silverlight.xml" />
+    <Content Include="lib\Fayde\Metro.theme.xml" />
     <Content Include="lib\requirejs\require.js" />
     <Content Include="lib\requirejs\text.js" />
-    <Content Include="main.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Controls\DrawingPad.ts" />
-    <TypeScriptCompile Include="lib\Fayde.Controls\Fayde.Controls.Ex.d.ts" />
+    <TypeScriptCompile Include="lib\Fayde.Controls\Fayde.Controls.d.ts" />
     <TypeScriptCompile Include="lib\Fayde\Clipboard.ts" />
     <TypeScriptCompile Include="lib\Fayde\Fayde.d.ts" />
     <TypeScriptCompile Include="lib\requirejs\require.d.ts" />
@@ -77,45 +77,18 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Images\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\cn\AppRC.resx" />
+    <Content Include="Resources\cn\AppRC.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\en\AppRC.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AppRC.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Resources\en\AppRC.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\en\AppRC.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppRC.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\fr\AppRC.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppRC.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\gr\AppRC.designer.cs">
-      <DependentUpon>AppRC.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <Content Include="Resources\fr\AppRC.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\fr\AppRC.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AppRC.designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\gr\AppRC.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>AppRC.designer.cs</LastGenOutput>
-    </Content>
+    <Content Include="Resources\gr\AppRC.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -165,7 +138,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fayde.0.9.7.19\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.7.19\build\Fayde.targets'))" />
-    <Error Condition="!Exists('..\packages\Fayde.0.9.7.26\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.7.26\build\Fayde.targets'))" />
+    <Error Condition="!Exists('..\packages\Fayde.0.9.8.0\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.0\build\Fayde.targets'))" />
   </Target>
-  <Import Project="..\packages\Fayde.0.9.7.26\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.7.26\build\Fayde.targets')" />
+  <Import Project="..\packages\Fayde.0.9.8.0\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.0\build\Fayde.targets')" />
 </Project>
