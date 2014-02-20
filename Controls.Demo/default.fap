@@ -16,8 +16,7 @@
           <ResourceDictionary Source="Assets/CustomListBoxStyles.fayde"/>
           <!--<ResourceDictionary Source="Assets/Converters.fayde"/>-->
         </ResourceDictionary.MergedDictionaries>
-      </ResourceDictionary> 
-      
+     
         <Color x:Key="DarkGray">#2B2F33</Color>
         <Color x:Key="MediumGray">#4F5459</Color>
         <Color x:Key="LightMediumGray">#D4D4D4</Color>
@@ -72,6 +71,7 @@
             </Setter.Value>
           </Setter>
         </Style>
+      </ResourceDictionary>
     </Application.Resources>
   
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRootGridStyle}">

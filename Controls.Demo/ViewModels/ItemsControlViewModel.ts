@@ -32,10 +32,10 @@ class ItemsControlViewModel extends Fayde.MVVM.ViewModelBase {
 
     Load() {
         for (var i = 0; i < 5; i++)
-            this.RadioButtonListSelection.Add(new TestData(i + 1, "Option " + (i + 1)));
+            this.RadioButtonListSelection.Add(new TestData((i + 1) + "", "Option " + (i + 1)));
 
         for (var i = 0; i < 4; i++)
-            this.CheckBoxListSelection.Add(new TestData(i + 1, "Option " + (i + 1)));
+            this.CheckBoxListSelection.Add(new TestData((i + 1) + "", "Option " + (i + 1)));
     }
 }
 export = ItemsControlViewModel 

@@ -11,11 +11,11 @@
     </Style>    
   </Page.Resources>
   <StackPanel Margin="5">
-        <ComboBox ItemsSource="{Binding Languages}" Grid.Row="0" HorizontalAlignment="Left" SelectionChanged="LangCombo_SelectionChanged" DisplayMemberPath="Name"/>   
+        <ComboBox Name="Language" ItemsSource="{Binding Languages}" HorizontalAlignment="Left" SelectedValue="{Binding SelectedLanguage, Mode=TwoWay}" DisplayMemberPath="Name"/>   
         
         <TextBlock Text="{Binding AppRC.AppName}"/>
 
-        <TextBlock Text="{Binding AppRC.English}"/>
-
+        <TextBlock Text="{Binding ElementName=Language, Path=SelectedItem.Name}"/>
+      
 	</StackPanel>
 </Page>
