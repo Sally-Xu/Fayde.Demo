@@ -1,17 +1,9 @@
-﻿<Page xmlns="http://schemas.wsick.com/fayde"
+﻿<Grid xmlns="http://schemas.wsick.com/fayde"
       xmlns:x="http://schemas.wsick.com/fayde/x"
       xmlns:viewmodels="ViewModels"
-      Title="Theming Demo">
-  <Page.DataContext>
+      >
+  <Grid.DataContext>
     <viewmodels:ThemingViewModel/>
-  </Page.DataContext>
-  <Page.Resources>
-    <Style TargetType="Control">
-      <Setter Property="Margin" Value="3, 10, 3, 10"/>
-    </Style>    
-  </Page.Resources>
-  <StackPanel Margin="5">
-        <ComboBox Name="Themes" ItemsSource="{Binding Themes}" HorizontalAlignment="Left" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"/>                   
-      
-	</StackPanel>
-</Page>
+  </Grid.DataContext> 
+  <ComboBox Name="Themes" ItemsSource="{Binding Themes}" HorizontalAlignment="Left" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"/>                         
+</Grid>

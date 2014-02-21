@@ -5,7 +5,7 @@
     xmlns:res="Resources"
     xmlns:views="Views"
     xmlns:viewmodels="ViewModels"
-    xmlns:controls="lib:Fayde.Controls"
+    xmlns:controls="lib:Fayde.Controls"   
     Theme="Metro">
   
     <Application.Resources>
@@ -86,10 +86,12 @@
       </Grid.RowDefinitions>
       
       <Border x:Name="BrandingBorder" Style="{StaticResource BrandingBorderStyle}">
-          <StackPanel x:Name="BrandingStackPanel" Style="{StaticResource BrandingStackPanelStyle}">
-              <ContentControl Style="{StaticResource LogoIcon}"/>
+          <Grid>
+            <StackPanel Style="{StaticResource BrandingStackPanelStyle}">
               <TextBlock x:Name="ApplicationNameTextBlock" Style="{StaticResource ApplicationNameStyle}"  Text="Fayde Controls Demo"/>
-          </StackPanel>
+            </StackPanel><ContentControl Style="{StaticResource LogoIcon}"/>              
+            <ContentControl HorizontalAlignment="Right" Height="30" VerticalAlignment="Bottom" Margin="0,0,10,5" ContentUri="Views/theming.fayde" />
+          </Grid>                                   
       </Border>
       
       <Grid Grid.Row="1" Style="{StaticResource SubHeaderStyle}">    

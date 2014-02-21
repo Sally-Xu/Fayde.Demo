@@ -26,12 +26,6 @@
     <Content Include="lib\Fayde\Metro.theme.xml" />
     <Content Include="lib\requirejs\require.js" />
     <Content Include="lib\requirejs\text.js" />
-    <Content Include="ViewModels\DefaultViewModel.js" />
-    <Content Include="ViewModels\DrawingPadViewModel.js" />
-    <Content Include="ViewModels\ItemsControlViewModel.js" />
-    <Content Include="ViewModels\LocalizationViewModel.js" />
-    <Content Include="ViewModels\TabViewModel.js" />
-    <Content Include="ViewModels\ThemingViewModel.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -60,12 +54,6 @@
     <Content Include="Views\localization.fayde" />
     <Content Include="Views\theming.fayde" />
     <Content Include="packages.config" />
-    <Content Include="ViewModels\DefaultViewModel.js.map" />
-    <Content Include="ViewModels\DrawingPadViewModel.js.map" />
-    <Content Include="ViewModels\ItemsControlViewModel.js.map" />
-    <Content Include="ViewModels\LocalizationViewModel.js.map" />
-    <Content Include="ViewModels\TabViewModel.js.map" />
-    <Content Include="ViewModels\ThemingViewModel.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

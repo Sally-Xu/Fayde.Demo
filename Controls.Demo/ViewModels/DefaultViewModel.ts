@@ -48,8 +48,8 @@ class DefaultViewModel extends Fayde.MVVM.ViewModelBase {
         item = new MenuItem("Navigation", "Navigation");
         this.Menu.Add(item);
 
-        item = new MenuItem("Theming", "Theming");
-        this.Menu.Add(item);
+        //item = new MenuItem("Theming", "Theming");
+        //this.Menu.Add(item);
     }
 }
 
