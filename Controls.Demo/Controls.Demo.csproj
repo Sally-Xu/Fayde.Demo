@@ -26,6 +26,14 @@
     <Content Include="lib\Fayde\Metro.theme.xml" />
     <Content Include="lib\requirejs\require.js" />
     <Content Include="lib\requirejs\text.js" />
+    <Content Include="ViewModels\DefaultViewModel.js" />
+    <Content Include="ViewModels\DrawingPadViewModel.js" />
+    <Content Include="ViewModels\ItemsControlViewModel.js" />
+    <Content Include="ViewModels\LocalizationViewModel.js" />
+    <Content Include="ViewModels\TabViewModel.js" />
+    <Content Include="ViewModels\ThemingViewModel.js" />
+    <None Include="Views\map.fayde" />
+    <None Include="Views\shapes.fayde" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +62,14 @@
     <Content Include="Views\localization.fayde" />
     <Content Include="Views\theming.fayde" />
     <Content Include="packages.config" />
+    <Content Include="ViewModels\ThemingViewModel.js.map" />
+    <Content Include="ViewModels\TabViewModel.js.map" />
+    <Content Include="ViewModels\LocalizationViewModel.js.map" />
+    <Content Include="ViewModels\ItemsControlViewModel.js.map" />
+    <Content Include="ViewModels\DrawingPadViewModel.js.map" />
+    <Content Include="ViewModels\DefaultViewModel.js.map" />
+    <Content Include="Views\sourceviewer.fayde" />
+    <Content Include="Views\slider.fayde" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -74,10 +90,13 @@
     <TypeScriptCompile Include="ViewModels\DrawingPadViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\ItemsControlViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\LocalizationViewModel.ts" />
+    <TypeScriptCompile Include="ViewModels\Slider.ts" />
+    <TypeScriptCompile Include="ViewModels\SourceViewerViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\TabViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\ThemingViewModel.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Controls\Map.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -148,7 +167,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fayde.0.9.7.19\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.7.19\build\Fayde.targets'))" />
-    <Error Condition="!Exists('..\packages\Fayde.0.9.8.2\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.2\build\Fayde.targets'))" />
+    <Error Condition="!Exists('..\packages\Fayde.0.9.8.8\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.8\build\Fayde.targets'))" />
   </Target>
-  <Import Project="..\packages\Fayde.0.9.8.2\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.2\build\Fayde.targets')" />
+  <Import Project="..\packages\Fayde.0.9.8.8\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.8\build\Fayde.targets')" />
 </Project>

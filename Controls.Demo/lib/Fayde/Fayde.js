@@ -913,6 +913,9 @@ var Fayde;
             for (var i = 0, monitors = (this._IAMonitors || []).slice(0), len = monitors.length; i < len; i++) {
                 monitors[i].Callback(newIsAttached);
             }
+
+            if (!newIsAttached)
+                this._OwnerNameScope = undefined;
         };
         XamlNode.prototype.MonitorIsAttached = function (func) {
             var monitors = this._IAMonitors;
@@ -5733,46 +5736,39 @@ var Fayde;
                 };
 
                 ButtonBase.prototype.OnIsEnabledChanged = function (e) {
-                    var isEnabled = e.NewValue;
-                    this._SuspendStateChanges = true;
-                    try  {
-                        if (!isEnabled) {
-                            this.SetValueInternal(ButtonBase.IsFocusedProperty, false);
-                            this.SetValueInternal(ButtonBase.IsPressedProperty, false);
-                            this._IsMouseCaptured = false;
-                            this._IsSpaceKeyDown = false;
-                            this._IsMouseLeftButtonDown = false;
-                        }
-                    } finally {
-                        this._SuspendStateChanges = false;
-                        this.UpdateVisualState();
-                    }
+                    var _this = this;
+                    if (!!e.NewValue)
+                        return;
+                    this._DoWithSuspend(function () {
+                        _this.SetValueInternal(ButtonBase.IsFocusedProperty, false);
+                        _this.SetValueInternal(ButtonBase.IsPressedProperty, false);
+                        _this._IsMouseCaptured = false;
+                        _this._IsSpaceKeyDown = false;
+                        _this._IsMouseLeftButtonDown = false;
+                    });
                 };
                 ButtonBase.prototype.OnMouseEnter = function (e) {
+                    var _this = this;
                     _super.prototype.OnMouseEnter.call(this, e);
 
-                    this._SuspendStateChanges = true;
-                    try  {
-                        if (this.ClickMode === 2 /* Hover */ && this.IsEnabled) {
-                            this.SetValueInternal(ButtonBase.IsPressedProperty, true);
-                            this.OnClick();
-                        }
-                    } finally {
-                        this._SuspendStateChanges = false;
-                        this.UpdateVisualState();
-                    }
+                    if (this.ClickMode !== 2 /* Hover */ || !this.IsEnabled)
+                        return;
+
+                    this._DoWithSuspend(function () {
+                        _this.SetValueInternal(ButtonBase.IsPressedProperty, true);
+                        _this.OnClick();
+                    });
                 };
                 ButtonBase.prototype.OnMouseLeave = function (e) {
+                    var _this = this;
                     _super.prototype.OnMouseLeave.call(this, e);
 
-                    this._SuspendStateChanges = true;
-                    try  {
-                        if (this.ClickMode === 2 /* Hover */ && this.IsEnabled)
-                            this.SetValueInternal(ButtonBase.IsPressedProperty, false);
-                    } finally {
-                        this._SuspendStateChanges = false;
-                        this.UpdateVisualState();
-                    }
+                    if (this.ClickMode !== 2 /* Hover */ || !this.IsEnabled)
+                        return;
+
+                    this._DoWithSuspend(function () {
+                        _this.SetValueInternal(ButtonBase.IsPressedProperty, false);
+                    });
                 };
                 ButtonBase.prototype.OnMouseMove = function (e) {
                     _super.prototype.OnMouseMove.call(this, e);
@@ -5784,6 +5780,7 @@ var Fayde;
                     }
                 };
                 ButtonBase.prototype.OnMouseLeftButtonDown = function (e) {
+                    var _this = this;
                     _super.prototype.OnMouseLeftButtonDown.call(this, e);
 
                     this._IsMouseLeftButtonDown = true;
@@ -5794,16 +5791,12 @@ var Fayde;
                         return;
 
                     e.Handled = true;
-                    this._SuspendStateChanges = true;
-                    try  {
-                        this.Focus();
-                        this._CaptureMouseInternal();
-                        if (this._IsMouseCaptured)
-                            this.SetValueInternal(ButtonBase.IsPressedProperty, true);
-                    } finally {
-                        this._SuspendStateChanges = false;
-                        this.UpdateVisualState();
-                    }
+                    this._DoWithSuspend(function () {
+                        _this.Focus();
+                        _this._CaptureMouseInternal();
+                        if (_this._IsMouseCaptured)
+                            _this.SetValueInternal(ButtonBase.IsPressedProperty, true);
+                    });
 
                     if (clickMode === 1 /* Press */)
                         this.OnClick();
@@ -5834,20 +5827,18 @@ var Fayde;
                     this.UpdateVisualState();
                 };
                 ButtonBase.prototype.OnLostFocus = function (e) {
+                    var _this = this;
                     _super.prototype.OnLostFocus.call(this, e);
                     this.SetValueInternal(ButtonBase.IsFocusedProperty, false);
 
-                    this._SuspendStateChanges = true;
-                    try  {
-                        if (this.ClickMode !== 2 /* Hover */) {
-                            this.SetValueInternal(ButtonBase.IsPressedProperty, false);
-                            this._ReleaseMouseCaptureInternal();
-                            this._IsSpaceKeyDown = false;
-                        }
-                    } finally {
-                        this._SuspendStateChanges = false;
-                        this.UpdateVisualState();
-                    }
+                    if (this.ClickMode === 2 /* Hover */)
+                        return;
+
+                    this._DoWithSuspend(function () {
+                        _this.SetValueInternal(ButtonBase.IsPressedProperty, false);
+                        _this._ReleaseMouseCaptureInternal();
+                        _this._IsSpaceKeyDown = false;
+                    });
                 };
 
                 ButtonBase.prototype.OnClick = function () {
@@ -5860,6 +5851,16 @@ var Fayde;
                     }
 
                     this.Click.Raise(this, new Fayde.RoutedEventArgs());
+                };
+
+                ButtonBase.prototype._DoWithSuspend = function (action) {
+                    this._SuspendStateChanges = true;
+                    try  {
+                        action();
+                    } finally {
+                        this._SuspendStateChanges = false;
+                        this.UpdateVisualState();
+                    }
                 };
 
                 ButtonBase.prototype.UpdateVisualState = function (useTransitions) {
@@ -7798,7 +7799,7 @@ var Fayde;
             }, ComboBox, false, function (d, args) {
                 return d._IsDropDownOpenChanged(args);
             });
-            ComboBox.ItemContainerStyleProperty = DependencyProperty.RegisterCore("ItemContainerStyle", function () {
+            ComboBox.ItemContainerStyleProperty = DependencyProperty.Register("ItemContainerStyle", function () {
                 return Fayde.Style;
             }, ComboBox, undefined, function (d, args) {
                 return d.OnItemContainerStyleChanged(args);
@@ -10814,7 +10815,6 @@ var Fayde;
                 if (args.Handled)
                     return;
 
-                var handled = false;
                 var newFocusedIndex = -1;
                 switch (args.Key) {
                     case 9 /* Space */:
@@ -10831,7 +10831,7 @@ var Fayde;
                                     } else {
                                         this.SelectedItem = this.ItemContainerGenerator.ItemFromContainer(lbi);
                                     }
-                                    handled = true;
+                                    args.Handled = true;
                                 }
                             }
                         }
@@ -10888,10 +10888,8 @@ var Fayde;
                     } else {
                         this.SelectedItem = item;
                     }
-                    handled = true;
-                }
-                if (handled)
                     args.Handled = true;
+                }
             };
             ListBox.prototype._GetIsVerticalOrientation = function () {
                 var p = this.Panel;
@@ -10935,7 +10933,7 @@ var Fayde;
             ListBox.prototype.NotifyListItemLostFocus = function (lbi) {
                 this._FocusedIndex = -1;
             };
-            ListBox.ItemContainerStyleProperty = DependencyProperty.RegisterCore("ItemContainerStyle", function () {
+            ListBox.ItemContainerStyleProperty = DependencyProperty.Register("ItemContainerStyle", function () {
                 return Fayde.Style;
             }, ListBox, undefined, function (d, args) {
                 return d.OnItemContainerStyleChanged(args);
@@ -12729,113 +12727,34 @@ var Fayde;
 (function (Fayde) {
     (function (Controls) {
         (function (Primitives) {
+            function numberValidator(d, propd, value) {
+                if (typeof value !== "number")
+                    return false;
+                if (isNaN(value))
+                    return false;
+                if (!isFinite(value))
+                    return false;
+                return true;
+            }
+            function changeValidator(d, propd, value) {
+                if (!numberValidator(d, propd, value))
+                    return false;
+                return value >= 0;
+            }
+
             var RangeBase = (function (_super) {
                 __extends(RangeBase, _super);
                 function RangeBase() {
                     _super.apply(this, arguments);
                     this._LevelsFromRootCall = 0;
-                    this._InitialMax = 0;
+                    this._InitialMax = 1;
                     this._InitialVal = 0;
-                    this._RequestedMax = 0;
+                    this._RequestedMax = 1;
                     this._RequestedVal = 0;
+                    this._PreCoercedMax = 1;
+                    this._PreCoercedVal = 0;
                     this.ValueChanged = new Fayde.RoutedPropertyChangedEvent();
                 }
-                RangeBase.prototype._OnMinimumChanged = function (args) {
-                    if (!isValidDoubleValue(args.NewValue))
-                        throw new ArgumentException("Invalid double value for Minimum property.");
-                    if (this._LevelsFromRootCall === 0) {
-                        this._InitialMax = this.Maximum;
-                        this._InitialVal = this.Value;
-                    }
-                    this._LevelsFromRootCall++;
-                    this._CoerceMaximum();
-                    this._CoerceValue();
-                    this._LevelsFromRootCall--;
-                    if (this._LevelsFromRootCall === 0) {
-                        this.OnMinimumChanged(args.OldValue, args.OldValue);
-                        var max = this.Maximum;
-                        if (!areNumbersClose(this._InitialMax, max)) {
-                            this.OnMaximumChanged(this._InitialMax, max);
-                        }
-                        var val = this.Value;
-                        if (!areNumbersClose(this._InitialVal, val)) {
-                            this.RaiseValueChanged(this._InitialVal, val);
-                        }
-                    }
-                };
-                RangeBase.prototype._OnMaximumChanged = function (args) {
-                    if (!isValidDoubleValue(args.NewValue))
-                        throw new ArgumentException("Invalid double value for Maximum property.");
-                    if (this._LevelsFromRootCall === 0) {
-                        this._RequestedMax = args.NewValue;
-                        this._InitialMax = args.OldValue;
-                        this._InitialVal = this.Value;
-                    }
-                    this._LevelsFromRootCall++;
-                    this._CoerceMaximum();
-                    this._CoerceValue();
-                    this._LevelsFromRootCall--;
-                    if (this._LevelsFromRootCall === 0) {
-                        var max = this.Maximum;
-                        if (!areNumbersClose(this._InitialMax, max)) {
-                            this.OnMaximumChanged(this._InitialMax, max);
-                        }
-                        var val = this.Value;
-                        if (!areNumbersClose(this._InitialVal, val)) {
-                            this.RaiseValueChanged(this._InitialVal, val);
-                        }
-                    }
-                };
-                RangeBase.prototype._OnLargeChangeChanged = function (args) {
-                    if (!isValidChange(args.NewValue))
-                        throw new ArgumentException("Invalid Large Change Value.");
-                };
-                RangeBase.prototype._OnSmallChangeChanged = function (args) {
-                    if (!isValidChange(args.NewValue))
-                        throw new ArgumentException("Invalid Small Change Value.");
-                };
-                RangeBase.prototype._OnValueChanged = function (args) {
-                    if (!isValidDoubleValue(args.NewValue))
-                        throw new ArgumentException("Invalid double value for Value property.");
-                    if (this._LevelsFromRootCall === 0) {
-                        this._RequestedVal = args.NewValue;
-                        this._InitialVal = args.OldValue;
-                    }
-                    this._LevelsFromRootCall++;
-                    this._CoerceValue();
-                    this._LevelsFromRootCall--;
-                    if (this._LevelsFromRootCall === 0) {
-                        var val = this.Value;
-                        if (!areNumbersClose(this._InitialVal, val)) {
-                            this.RaiseValueChanged(this._InitialVal, val);
-                        }
-                    }
-                };
-
-                RangeBase.prototype._CoerceMaximum = function () {
-                    var min = this.Minimum;
-                    var max = this.Maximum;
-                    if (!areNumbersClose(this._RequestedMax, max) && this._RequestedMax >= min) {
-                        this.Maximum = this._RequestedMax;
-                        return;
-                    }
-                    if (max < min)
-                        this.Maximum = min;
-                };
-                RangeBase.prototype._CoerceValue = function () {
-                    var min = this.Minimum;
-                    var max = this.Maximum;
-                    var val = this.Value;
-                    if (!areNumbersClose(this._RequestedVal, val) && this._RequestedVal >= min && this._RequestedVal <= max) {
-                        this.Value = this._RequestedVal;
-                        return;
-                    }
-                    if (val < min)
-                        this.Value = min;
-                    if (val > max)
-                        this.Value = max;
-                };
-
                 RangeBase.prototype.OnMinimumChanged = function (oldMin, newMin) {
                 };
                 RangeBase.prototype.OnMaximumChanged = function (oldMax, newMax) {
@@ -12846,31 +12765,105 @@ var Fayde;
                 };
                 RangeBase.prototype.OnValueChanged = function (oldVal, newVal) {
                 };
-                RangeBase.MinimumProperty = DependencyProperty.Register("Minimum", function () {
+
+                RangeBase.prototype._OnMinimumChanged = function (args) {
+                    if (this._LevelsFromRootCall === 0) {
+                        this._InitialMax = this.Maximum;
+                        this._InitialVal = this.Value;
+                    }
+                    this._LevelsFromRootCall++;
+                    this._CoerceMaximum();
+                    this._CoerceValue();
+                    this._LevelsFromRootCall--;
+                    if (this._LevelsFromRootCall !== 0)
+                        return;
+
+                    this.OnMinimumChanged(args.OldValue, args.OldValue);
+                    var max = this.Maximum;
+                    if (!areNumbersClose(this._InitialMax, max))
+                        this.OnMaximumChanged(this._InitialMax, max);
+                    var val = this.Value;
+                    if (!areNumbersClose(this._InitialVal, val))
+                        this.RaiseValueChanged(this._InitialVal, val);
+                };
+                RangeBase.prototype._OnMaximumChanged = function (args) {
+                    if (this._LevelsFromRootCall === 0) {
+                        this._RequestedMax = args.NewValue;
+                        this._InitialMax = args.OldValue;
+                        this._InitialVal = this.Value;
+                    }
+                    this._LevelsFromRootCall++;
+                    this._CoerceMaximum();
+                    this._CoerceValue();
+                    this._LevelsFromRootCall--;
+                    if (this._LevelsFromRootCall !== 0)
+                        return;
+
+                    this._PreCoercedMax = args.NewValue;
+                    var max = this.Maximum;
+                    if (!areNumbersClose(this._InitialMax, max))
+                        this.OnMaximumChanged(this._InitialMax, max);
+                    var val = this.Value;
+                    if (!areNumbersClose(this._InitialVal, val))
+                        this.RaiseValueChanged(this._InitialVal, val);
+                };
+                RangeBase.prototype._OnValueChanged = function (args) {
+                    if (this._LevelsFromRootCall === 0) {
+                        this._RequestedVal = args.NewValue;
+                        this._InitialVal = args.OldValue;
+                    }
+                    this._LevelsFromRootCall++;
+                    this._CoerceValue();
+                    this._LevelsFromRootCall--;
+                    if (this._LevelsFromRootCall !== 0)
+                        return;
+
+                    this._PreCoercedVal = args.NewValue;
+                    var val = this.Value;
+                    if (!areNumbersClose(this._InitialVal, val))
+                        this.RaiseValueChanged(this._InitialVal, val);
+                };
+
+                RangeBase.prototype._CoerceMaximum = function () {
+                    var min = this.Minimum;
+                    var max = this.Maximum;
+                    if (!areNumbersClose(this._RequestedMax, max) && this._RequestedMax >= min)
+                        this.SetStoreValue(RangeBase.MaximumProperty, this._RequestedMax);
+                    else if (max < min)
+                        this.SetStoreValue(RangeBase.MaximumProperty, min);
+                };
+                RangeBase.prototype._CoerceValue = function () {
+                    var min = this.Minimum;
+                    var max = this.Maximum;
+                    var val = this.Value;
+                    if (!areNumbersClose(this._RequestedVal, val) && this._RequestedVal >= min && this._RequestedVal <= max)
+                        this.SetStoreValue(RangeBase.ValueProperty, this._RequestedVal);
+                    else if (val < min)
+                        this.SetStoreValue(RangeBase.ValueProperty, min);
+                    else if (val > max)
+                        this.SetStoreValue(RangeBase.ValueProperty, max);
+                };
+                RangeBase.MinimumProperty = DependencyProperty.RegisterFull("Minimum", function () {
                     return Number;
                 }, RangeBase, 0, function (d, args) {
                     return d._OnMinimumChanged(args);
-                });
-                RangeBase.MaximumProperty = DependencyProperty.Register("Maximum", function () {
+                }, undefined, false, numberValidator);
+                RangeBase.MaximumProperty = DependencyProperty.RegisterFull("Maximum", function () {
                     return Number;
                 }, RangeBase, 1, function (d, args) {
                     return d._OnMaximumChanged(args);
-                });
-                RangeBase.LargeChangeProperty = DependencyProperty.Register("LargeChange", function () {
+                }, undefined, false, numberValidator);
+                RangeBase.LargeChangeProperty = DependencyProperty.RegisterFull("LargeChange", function () {
                     return Number;
-                }, RangeBase, 1, function (d, args) {
-                    return d._OnLargeChangeChanged(args);
-                });
-                RangeBase.SmallChangeProperty = DependencyProperty.Register("SmallChange", function () {
+                }, RangeBase, 1, undefined, undefined, false, changeValidator);
+                RangeBase.SmallChangeProperty = DependencyProperty.RegisterFull("SmallChange", function () {
                     return Number;
-                }, RangeBase, 0.1, function (d, args) {
-                    return d._OnSmallChangeChanged(args);
-                });
-                RangeBase.ValueProperty = DependencyProperty.Register("Value", function () {
+                }, RangeBase, 0.1, undefined, undefined, false, changeValidator);
+                RangeBase.ValueProperty = DependencyProperty.RegisterFull("Value", function () {
                     return Number;
                 }, RangeBase, 0, function (d, args) {
                     return d._OnValueChanged(args);
-                });
+                }, undefined, false, numberValidator);
                 return RangeBase;
             })(Fayde.Controls.Control);
             Primitives.RangeBase = RangeBase;
@@ -12882,20 +12875,6 @@ var Fayde;
                 var num1 = (Math.abs(val1) + Math.abs(val2) + 10) * 1.11022302462516E-16;
                 var num2 = val1 - val2;
                 return -num1 < num2 && num1 > num2;
-            }
-            function isValidChange(value) {
-                if (!isValidDoubleValue(value))
-                    return false;
-                return value >= 0;
-            }
-            function isValidDoubleValue(value) {
-                if (typeof value !== "number")
-                    return false;
-                if (isNaN(value))
-                    return false;
-                if (!isFinite(value))
-                    return false;
-                return true;
             }
         })(Controls.Primitives || (Controls.Primitives = {}));
         var Primitives = Controls.Primitives;
@@ -13578,7 +13557,6 @@ var Fayde;
                             aIndex = items.IndexOf(this._SelectedItem);
                         aIndex = Math.max(aIndex, 0);
                         var oIndex = items.IndexOf(item);
-                        console.log("a: " + aIndex + "; o: " + oIndex);
                         return this.SelectRange(Math.min(aIndex, oIndex), Math.max(aIndex, oIndex));
                     }
 
@@ -13879,6 +13857,24 @@ var Fayde;
                 _super.call(this);
                 this.DefaultStyleKey = this.constructor;
             }
+            ProgressBar.prototype.OnIsIndeterminateChanged = function (args) {
+                this._UpdateIndicator();
+                this.UpdateVisualState();
+            };
+
+            ProgressBar.prototype.OnValueChanged = function (oldValue, newValue) {
+                _super.prototype.OnValueChanged.call(this, oldValue, newValue);
+                this._UpdateIndicator();
+            };
+            ProgressBar.prototype.OnMaximumChanged = function (oldMaximum, newMaximum) {
+                _super.prototype.OnMaximumChanged.call(this, oldMaximum, newMaximum);
+                this._UpdateIndicator();
+            };
+            ProgressBar.prototype.OnMinimumChanged = function (oldMinimum, newMinimum) {
+                _super.prototype.OnMinimumChanged.call(this, oldMinimum, newMinimum);
+                this._UpdateIndicator();
+            };
+
             ProgressBar.prototype.OnApplyTemplate = function () {
                 _super.prototype.OnApplyTemplate.call(this);
 
@@ -13895,16 +13891,14 @@ var Fayde;
                 this.UpdateVisualState(false);
             };
 
-            ProgressBar.prototype.OnValueChanged = function (oldValue, newValue) {
-                _super.prototype.OnValueChanged.call(this, oldValue, newValue);
-                this._UpdateIndicator();
+            ProgressBar.prototype.GoToStates = function (gotoFunc) {
+                if (this.IsIndeterminate)
+                    gotoFunc("Indeterminate");
+                else
+                    gotoFunc("Determinate");
             };
 
             ProgressBar.prototype._OnTrackSizeChanged = function (sender, e) {
-                this._UpdateIndicator();
-            };
-            ProgressBar.prototype._IsIndeterminateChanged = function (args) {
-                this.UpdateVisualState();
                 this._UpdateIndicator();
             };
             ProgressBar.prototype._UpdateIndicator = function () {
@@ -13916,7 +13910,7 @@ var Fayde;
                 if (!indicator)
                     return;
 
-                var parent = Fayde.VisualTreeHelper.GetParent(this);
+                var parent = Fayde.VisualTreeHelper.GetParent(indicator);
                 if (!parent)
                     return;
 
@@ -13939,17 +13933,10 @@ var Fayde;
                 var fullWidth = Math.max(0, parent.ActualWidth - outerWidth);
                 indicator.Width = fullWidth * progress;
             };
-
-            ProgressBar.prototype.GoToStates = function (gotoFunc) {
-                if (this.IsIndeterminate)
-                    gotoFunc("Indeterminate");
-                else
-                    gotoFunc("Determinate");
-            };
             ProgressBar.IsIndeterminateProperty = DependencyProperty.Register("IsIndeterminate", function () {
                 return Boolean;
             }, ProgressBar, false, function (d, args) {
-                return d._IsIndeterminateChanged(args);
+                return d.OnIsIndeterminateChanged(args);
             });
             return ProgressBar;
         })(Fayde.Controls.Primitives.RangeBase);
@@ -14289,40 +14276,40 @@ var Fayde;
                 configurable: true
             });
             ScrollContentPresenter.prototype.LineUp = function () {
-                this.SetVerticalOffset(this._ScrollData.OffsetY - 16);
+                return this.SetVerticalOffset(this._ScrollData.OffsetY - 16);
             };
             ScrollContentPresenter.prototype.LineDown = function () {
-                this.SetVerticalOffset(this._ScrollData.OffsetY + 16);
+                return this.SetVerticalOffset(this._ScrollData.OffsetY + 16);
             };
             ScrollContentPresenter.prototype.LineLeft = function () {
-                this.SetHorizontalOffset(this._ScrollData.OffsetX - 16);
+                return this.SetHorizontalOffset(this._ScrollData.OffsetX - 16);
             };
             ScrollContentPresenter.prototype.LineRight = function () {
-                this.SetHorizontalOffset(this._ScrollData.OffsetX + 16);
+                return this.SetHorizontalOffset(this._ScrollData.OffsetX + 16);
             };
             ScrollContentPresenter.prototype.MouseWheelUp = function () {
-                this.SetVerticalOffset(this._ScrollData.OffsetY - 48);
+                return this.SetVerticalOffset(this._ScrollData.OffsetY - 48);
             };
             ScrollContentPresenter.prototype.MouseWheelDown = function () {
-                this.SetVerticalOffset(this._ScrollData.OffsetY + 48);
+                return this.SetVerticalOffset(this._ScrollData.OffsetY + 48);
             };
             ScrollContentPresenter.prototype.MouseWheelLeft = function () {
-                this.SetHorizontalOffset(this._ScrollData.OffsetX - 48);
+                return this.SetHorizontalOffset(this._ScrollData.OffsetX - 48);
             };
             ScrollContentPresenter.prototype.MouseWheelRight = function () {
-                this.SetHorizontalOffset(this._ScrollData.OffsetX + 48);
+                return this.SetHorizontalOffset(this._ScrollData.OffsetX + 48);
             };
             ScrollContentPresenter.prototype.PageUp = function () {
-                this.SetVerticalOffset(this._ScrollData.OffsetY - this._ScrollData.ViewportHeight);
+                return this.SetVerticalOffset(this._ScrollData.OffsetY - this._ScrollData.ViewportHeight);
             };
             ScrollContentPresenter.prototype.PageDown = function () {
-                this.SetVerticalOffset(this._ScrollData.OffsetY + this._ScrollData.ViewportHeight);
+                return this.SetVerticalOffset(this._ScrollData.OffsetY + this._ScrollData.ViewportHeight);
             };
             ScrollContentPresenter.prototype.PageLeft = function () {
-                this.SetHorizontalOffset(this._ScrollData.OffsetX - this._ScrollData.ViewportWidth);
+                return this.SetHorizontalOffset(this._ScrollData.OffsetX - this._ScrollData.ViewportWidth);
             };
             ScrollContentPresenter.prototype.PageRight = function () {
-                this.SetHorizontalOffset(this._ScrollData.OffsetX + this._ScrollData.ViewportWidth);
+                return this.SetHorizontalOffset(this._ScrollData.OffsetX + this._ScrollData.ViewportWidth);
             };
             ScrollContentPresenter.prototype.MakeVisible = function (uie, rectangle) {
                 if (rect.isEmpty(rectangle) || !uie || uie === this || !this.XamlNode.IsAncestorOf(uie.XamlNode))
@@ -14353,25 +14340,34 @@ var Fayde;
                 return rectangle;
             };
             ScrollContentPresenter.prototype.SetHorizontalOffset = function (offset) {
+                if (isNaN(offset))
+                    throw new ArgumentException("Offset is not a number.");
                 if (!this.CanHorizontallyScroll)
-                    return;
-                var valid = validateInputOffset(offset);
-                if (areNumbersClose(this._ScrollData.OffsetX, valid))
-                    return;
+                    return false;
 
-                this._ScrollData.CachedOffsetX = valid;
+                var sd = this._ScrollData;
+                offset = Math.max(0, Math.min(offset, sd.ExtentWidth - sd.ViewportWidth));
+                if (areNumbersClose(this._ScrollData.OffsetX, offset))
+                    return false;
+
+                this._ScrollData.CachedOffsetX = offset;
                 this.XamlNode.LayoutUpdater.InvalidateArrange();
+                return true;
             };
             ScrollContentPresenter.prototype.SetVerticalOffset = function (offset) {
+                if (isNaN(offset))
+                    throw new ArgumentException("Offset is not a number.");
                 if (!this.CanVerticallyScroll)
-                    return;
+                    return false;
 
-                var valid = validateInputOffset(offset);
-                if (areNumbersClose(this._ScrollData.OffsetY, valid))
-                    return;
+                var sd = this._ScrollData;
+                offset = Math.max(0, Math.min(offset, sd.ExtentHeight - sd.ViewportHeight));
+                if (areNumbersClose(this._ScrollData.OffsetY, offset))
+                    return false;
 
-                this._ScrollData.CachedOffsetY = valid;
+                this._ScrollData.CachedOffsetY = offset;
                 this.XamlNode.LayoutUpdater.InvalidateArrange();
+                return true;
             };
 
             ScrollContentPresenter.prototype.OnApplyTemplate = function () {
@@ -14515,20 +14511,31 @@ var Fayde;
                 var changed = false;
 
                 var sd = this._ScrollData;
-                var result = this.CanHorizontallyScroll ? Math.min(sd.CachedOffsetX, sd.ExtentWidth - sd.ViewportWidth) : 0;
-                result = Math.max(0, result);
-                if (!areNumbersClose(result, this.HorizontalOffset)) {
-                    sd.OffsetX = result;
+                var clampX = this._ClampHorizontal(sd.CachedOffsetX);
+                if (!areNumbersClose(clampX, this.HorizontalOffset)) {
+                    sd.OffsetX = clampX;
                     changed = true;
                 }
 
-                result = this.CanVerticallyScroll ? Math.min(sd.CachedOffsetY, sd.ExtentHeight - sd.ViewportHeight) : 0;
-                result = Math.max(0, result);
-                if (!areNumbersClose(result, this.VerticalOffset)) {
-                    sd.OffsetY = result;
+                var clampY = this._ClampVertical(sd.CachedOffsetY);
+                if (!areNumbersClose(clampY, this.VerticalOffset)) {
+                    sd.OffsetY = clampY;
                     changed = true;
                 }
                 return changed;
+            };
+
+            ScrollContentPresenter.prototype._ClampHorizontal = function (x) {
+                if (!this.CanHorizontallyScroll)
+                    return 0;
+                var sd = this._ScrollData;
+                return Math.max(0, Math.min(x, sd.ExtentWidth - sd.ViewportWidth));
+            };
+            ScrollContentPresenter.prototype._ClampVertical = function (y) {
+                if (!this.CanVerticallyScroll)
+                    return 0;
+                var sd = this._ScrollData;
+                return Math.max(0, Math.min(y, sd.ExtentHeight - sd.ViewportHeight));
             };
             return ScrollContentPresenter;
         })(Fayde.Controls.ContentPresenter);
@@ -14536,11 +14543,6 @@ var Fayde;
         Fayde.RegisterType(ScrollContentPresenter, "Fayde.Controls", Fayde.XMLNS);
         Fayde.RegisterTypeInterfaces(ScrollContentPresenter, Fayde.Controls.Primitives.IScrollInfo_);
 
-        function validateInputOffset(offset) {
-            if (!isNaN(offset))
-                return Math.max(0, offset);
-            throw new ArgumentException("Offset is not a number.");
-        }
         function areNumbersClose(val1, val2) {
             if (val1 === val2)
                 return true;
@@ -14786,12 +14788,11 @@ var Fayde;
 
             ScrollViewer.prototype.OnKeyDown = function (e) {
                 _super.prototype.OnKeyDown.call(this, e);
-                this._HandleKeyDown(e);
-            };
-            ScrollViewer.prototype._HandleKeyDown = function (e) {
+
                 if (e.Handled)
                     return;
-                if (!this.$TemplatedParentHandlesScrolling)
+
+                if (this.$TemplatedParentHandlesScrolling)
                     return;
 
                 var orientation = 1 /* Vertical */;
@@ -14827,10 +14828,8 @@ var Fayde;
                         scrollEventType = 1 /* SmallIncrement */;
                         break;
                 }
-                if (scrollEventType !== 5 /* ThumbTrack */) {
-                    this._HandleScroll(orientation, new Fayde.Controls.Primitives.ScrollEventArgs(scrollEventType, 0));
-                    e.Handled = true;
-                }
+                if (scrollEventType !== 5 /* ThumbTrack */)
+                    e.Handled = !!this._HandleScroll(orientation, new Fayde.Controls.Primitives.ScrollEventArgs(scrollEventType, 0));
             };
 
             ScrollViewer.prototype.ScrollInDirection = function (key) {
@@ -14903,29 +14902,24 @@ var Fayde;
 
             ScrollViewer.prototype._HandleScroll = function (orientation, e) {
                 if (orientation !== 0 /* Horizontal */)
-                    this._HandleVerticalScroll(e);
-                else
-                    this._HandleHorizontalScroll(e);
+                    return this._HandleVerticalScroll(e);
+                return this._HandleHorizontalScroll(e);
             };
             ScrollViewer.prototype._HandleHorizontalScroll = function (e) {
                 var scrollInfo = this.ScrollInfo;
                 if (!scrollInfo)
-                    return;
+                    return false;
                 var offset = scrollInfo.HorizontalOffset;
                 var newValue = offset;
                 switch (e.ScrollEventType) {
                     case 0 /* SmallDecrement */:
-                        scrollInfo.LineLeft();
-                        break;
+                        return scrollInfo.LineLeft();
                     case 1 /* SmallIncrement */:
-                        scrollInfo.LineRight();
-                        break;
+                        return scrollInfo.LineRight();
                     case 2 /* LargeDecrement */:
-                        scrollInfo.PageLeft();
-                        break;
+                        return scrollInfo.PageLeft();
                     case 3 /* LargeIncrement */:
-                        scrollInfo.PageRight();
-                        break;
+                        return scrollInfo.PageRight();
                     case 4 /* ThumbPosition */:
                     case 5 /* ThumbTrack */:
                         newValue = e.Value;
@@ -14939,27 +14933,28 @@ var Fayde;
                 }
                 newValue = Math.max(newValue, 0);
                 newValue = Math.min(this.ScrollableWidth, newValue);
-                if (!areNumbersClose(offset, newValue))
-                    scrollInfo.SetHorizontalOffset(newValue);
+                if (areNumbersClose(offset, newValue))
+                    return false;
+                scrollInfo.SetHorizontalOffset(newValue);
+                return true;
             };
             ScrollViewer.prototype._HandleVerticalScroll = function (e) {
                 var scrollInfo = this.ScrollInfo;
                 if (!scrollInfo)
-                    return;
+                    return false;
                 var offset = scrollInfo.VerticalOffset;
                 var newValue = offset;
                 switch (e.ScrollEventType) {
                     case 0 /* SmallDecrement */:
-                        scrollInfo.LineUp();
-                        break;
+                        return scrollInfo.LineUp();
                     case 1 /* SmallIncrement */:
-                        scrollInfo.LineDown();
+                        return scrollInfo.LineDown();
                         break;
                     case 2 /* LargeDecrement */:
-                        scrollInfo.PageUp();
+                        return scrollInfo.PageUp();
                         break;
                     case 3 /* LargeIncrement */:
-                        scrollInfo.PageDown();
+                        return scrollInfo.PageDown();
                         break;
                     case 4 /* ThumbPosition */:
                     case 5 /* ThumbTrack */:
@@ -14974,8 +14969,9 @@ var Fayde;
                 }
                 newValue = Math.max(newValue, 0);
                 newValue = Math.min(this.ScrollableHeight, newValue);
-                if (!areNumbersClose(offset, newValue))
-                    scrollInfo.SetVerticalOffset(newValue);
+                if (areNumbersClose(offset, newValue))
+                    return false;
+                return scrollInfo.SetVerticalOffset(newValue);
             };
             ScrollViewer.HorizontalScrollBarVisibilityProperty = DependencyProperty.RegisterAttachedCore("HorizontalScrollBarVisibility", function () {
                 return new Enum(Fayde.Controls.ScrollBarVisibility);
@@ -17114,63 +17110,55 @@ var Fayde;
             });
             VirtualizingStackPanel.prototype.LineUp = function () {
                 if (this.Orientation === 0 /* Horizontal */)
-                    this.SetVerticalOffset(this._VerticalOffset - LineDelta);
-                else
-                    this.SetVerticalOffset(this._VerticalOffset - 1);
+                    return this.SetVerticalOffset(this._VerticalOffset - LineDelta);
+                return this.SetVerticalOffset(this._VerticalOffset - 1);
             };
             VirtualizingStackPanel.prototype.LineDown = function () {
                 if (this.Orientation === 0 /* Horizontal */)
-                    this.SetVerticalOffset(this._VerticalOffset + LineDelta);
-                else
-                    this.SetVerticalOffset(this._VerticalOffset + 1);
+                    return this.SetVerticalOffset(this._VerticalOffset + LineDelta);
+                return this.SetVerticalOffset(this._VerticalOffset + 1);
             };
             VirtualizingStackPanel.prototype.LineLeft = function () {
                 if (this.Orientation === 1 /* Vertical */)
-                    this.SetHorizontalOffset(this._HorizontalOffset - LineDelta);
-                else
-                    this.SetHorizontalOffset(this._HorizontalOffset - 1);
+                    return this.SetHorizontalOffset(this._HorizontalOffset - LineDelta);
+                return this.SetHorizontalOffset(this._HorizontalOffset - 1);
             };
             VirtualizingStackPanel.prototype.LineRight = function () {
                 if (this.Orientation === 1 /* Vertical */)
-                    this.SetHorizontalOffset(this._HorizontalOffset + LineDelta);
-                else
-                    this.SetHorizontalOffset(this._HorizontalOffset + 1);
+                    return this.SetHorizontalOffset(this._HorizontalOffset + LineDelta);
+                return this.SetHorizontalOffset(this._HorizontalOffset + 1);
             };
             VirtualizingStackPanel.prototype.MouseWheelUp = function () {
                 if (this.Orientation === 0 /* Horizontal */)
-                    this.SetVerticalOffset(this._VerticalOffset - LineDelta * Wheelitude);
-                else
-                    this.SetVerticalOffset(this._VerticalOffset - Wheelitude);
+                    return this.SetVerticalOffset(this._VerticalOffset - LineDelta * Wheelitude);
+                return this.SetVerticalOffset(this._VerticalOffset - Wheelitude);
             };
             VirtualizingStackPanel.prototype.MouseWheelDown = function () {
                 if (this.Orientation === 0 /* Horizontal */)
-                    this.SetVerticalOffset(this._VerticalOffset + LineDelta * Wheelitude);
-                else
-                    this.SetVerticalOffset(this._VerticalOffset + Wheelitude);
+                    return this.SetVerticalOffset(this._VerticalOffset + LineDelta * Wheelitude);
+                return this.SetVerticalOffset(this._VerticalOffset + Wheelitude);
             };
             VirtualizingStackPanel.prototype.MouseWheelLeft = function () {
                 if (this.Orientation === 1 /* Vertical */)
-                    this.SetHorizontalOffset(this._HorizontalOffset - LineDelta * Wheelitude);
-                else
-                    this.SetHorizontalOffset(this._HorizontalOffset - Wheelitude);
+                    return this.SetHorizontalOffset(this._HorizontalOffset - LineDelta * Wheelitude);
+                return this.SetHorizontalOffset(this._HorizontalOffset - Wheelitude);
             };
             VirtualizingStackPanel.prototype.MouseWheelRight = function () {
                 if (this.Orientation === 1 /* Vertical */)
-                    this.SetHorizontalOffset(this._HorizontalOffset + LineDelta * Wheelitude);
-                else
-                    this.SetHorizontalOffset(this._HorizontalOffset + Wheelitude);
+                    return this.SetHorizontalOffset(this._HorizontalOffset + LineDelta * Wheelitude);
+                return this.SetHorizontalOffset(this._HorizontalOffset + Wheelitude);
             };
             VirtualizingStackPanel.prototype.PageUp = function () {
-                this.SetVerticalOffset(this._VerticalOffset - this._ViewportHeight);
+                return this.SetVerticalOffset(this._VerticalOffset - this._ViewportHeight);
             };
             VirtualizingStackPanel.prototype.PageDown = function () {
-                this.SetVerticalOffset(this._VerticalOffset + this._ViewportHeight);
+                return this.SetVerticalOffset(this._VerticalOffset + this._ViewportHeight);
             };
             VirtualizingStackPanel.prototype.PageLeft = function () {
-                this.SetHorizontalOffset(this._HorizontalOffset - this._ViewportWidth);
+                return this.SetHorizontalOffset(this._HorizontalOffset - this._ViewportWidth);
             };
             VirtualizingStackPanel.prototype.PageRight = function () {
-                this.SetHorizontalOffset(this._HorizontalOffset + this._ViewportWidth);
+                return this.SetHorizontalOffset(this._HorizontalOffset + this._ViewportWidth);
             };
             VirtualizingStackPanel.prototype.MakeVisible = function (uie, rectangle) {
                 var exposed = new rect();
@@ -17216,7 +17204,7 @@ var Fayde;
                     offset = this._ExtentWidth - this._ViewportWidth;
 
                 if (this._HorizontalOffset === offset)
-                    return;
+                    return false;
                 this._HorizontalOffset = offset;
 
                 if (this.Orientation === 0 /* Horizontal */)
@@ -17227,6 +17215,7 @@ var Fayde;
                 var scrollOwner = this.ScrollOwner;
                 if (scrollOwner)
                     scrollOwner.InvalidateScrollInfo();
+                return true;
             };
             VirtualizingStackPanel.prototype.SetVerticalOffset = function (offset) {
                 if (offset < 0 || this._ViewportHeight >= this._ExtentHeight)
@@ -17235,7 +17224,7 @@ var Fayde;
                     offset = this._ExtentHeight - this._ViewportHeight;
 
                 if (this._VerticalOffset === offset)
-                    return;
+                    return false;
                 this._VerticalOffset = offset;
 
                 if (this.Orientation === 1 /* Vertical */)
@@ -17246,6 +17235,7 @@ var Fayde;
                 var scrollOwner = this.ScrollOwner;
                 if (scrollOwner)
                     scrollOwner.InvalidateScrollInfo();
+                return true;
             };
 
             VirtualizingStackPanel.GetIsVirtualizing = function (d) {
@@ -22030,6 +22020,7 @@ var Fayde;
                 if (!args.Handled && args.Key === 2 /* Tab */) {
                     if (!this._Focus.TabFocus(args.Modifiers.Shift))
                         this._Focus.FocusAnyLayer(this._Surface.GetLayers());
+                    args.Handled = true;
                 }
                 this.SetIsUserInitiatedEvent(false);
             };
@@ -23587,6 +23578,8 @@ var Fayde;
 
                     var oldValue = animStorage.CurrentValue;
                     animStorage.CurrentValue = this.GetCurrentValue(animStorage.BaseValue, animStorage.StopValue !== undefined ? animStorage.StopValue : animStorage.BaseValue, clockData);
+                    if (Fayde.Media.Animation.Log)
+                        console.log(getLogMessage("AnimationBase.UpdateInternal", this, oldValue, animStorage.CurrentValue));
                     if (oldValue === animStorage.CurrentValue || animStorage.CurrentValue === undefined)
                         return;
                     Fayde.Media.Animation.AnimationStore.ApplyCurrent(animStorage);
@@ -23603,33 +23596,23 @@ var Fayde;
                     this._IsHolding = false;
                     this.Reset();
 
-                    var targetObject = null;
-                    if (this.HasManualTarget) {
-                        targetObject = this.ManualTarget;
-                    } else {
-                        var name = Fayde.Media.Animation.Storyboard.GetTargetName(this);
-                        if (name) {
-                            var n = this.XamlNode.FindName(name);
-                            targetObject = n.XObject;
-                        }
-                    }
-                    var targetPropertyPath = Fayde.Media.Animation.Storyboard.GetTargetProperty(this);
+                    var resolution = Fayde.Media.Animation.Storyboard.ResolveTarget(this);
 
-                    var refobj = { Value: targetObject };
-                    var targetProperty = targetPropertyPath.TryResolveDependencyProperty(refobj, promotedValues);
-                    targetObject = refobj.Value;
+                    var refobj = { Value: resolution.Target };
+                    var targetProperty = resolution.Property.TryResolveDependencyProperty(refobj, promotedValues);
+                    resolution.Target = refobj.Value;
                     if (!targetProperty) {
                         error.Number = BError.XamlParse;
-                        error.Message = "Could not resolve property for storyboard. [" + targetPropertyPath.Path.toString() + "]";
+                        error.Message = "Could not resolve property for storyboard. [" + resolution.Property.Path.toString() + "]";
                         return false;
                     }
-                    if (!this.Resolve(targetObject, targetProperty)) {
+                    if (!this.Resolve(resolution.Target, targetProperty)) {
                         error.Number = BError.InvalidOperation;
                         error.Message = "Storyboard value could not be converted to the correct type";
                         return false;
                     }
 
-                    this._AnimStorage = Fayde.Media.Animation.AnimationStore.Create(targetObject, targetProperty);
+                    this._AnimStorage = Fayde.Media.Animation.AnimationStore.Create(resolution.Target, targetProperty);
                     this._AnimStorage.Animation = this;
                     Fayde.Media.Animation.AnimationStore.Attach(this._AnimStorage);
                     return true;
@@ -23638,6 +23621,13 @@ var Fayde;
             })(Fayde.Media.Animation.Timeline);
             Animation.AnimationBase = AnimationBase;
             Fayde.RegisterType(AnimationBase, "Fayde.Media.Animation", Fayde.XMLNS);
+
+            function getLogMessage(action, anim, oldValue, newValue) {
+                var msg = "ANIMATION:" + action + ":" + anim._ID + "[" + anim.constructor.name + "]";
+                msg += ";" + (oldValue === undefined ? "(undefined)" : (oldValue === null ? "(null)" : oldValue.toString()));
+                msg += "->" + (newValue === undefined ? "(undefined)" : (newValue === null ? "(null)" : newValue.toString()));
+                return msg;
+            }
         })(Media.Animation || (Media.Animation = {}));
         var Animation = Media.Animation;
     })(Fayde.Media || (Fayde.Media = {}));
@@ -23662,6 +23652,7 @@ var Fayde;
                             baseValue = new targetType();
                     }
                     return {
+                        ID: createId(),
                         Animation: undefined,
                         PropStorage: Fayde.Providers.GetStorage(target, propd),
                         IsDisabled: false,
@@ -23713,26 +23704,39 @@ var Fayde;
                     return false;
                 };
                 AnimationStore.ApplyCurrent = function (animStorage) {
-                    var cv = animStorage.CurrentValue;
-                    if (cv === undefined)
+                    var val = animStorage.CurrentValue;
+                    if (val === undefined)
                         return;
+                    if (Fayde.Media.Animation.LogApply)
+                        console.log(getLogMessage("ApplyCurrent", animStorage, val));
                     var storage = animStorage.PropStorage;
-                    if (Fayde.Media.Animation.Debug && window.console) {
-                        console.log("ANIMATION:ApplyCurrent:" + storage.OwnerNode.Name + "->" + storage.Property.Name + "=" + cv);
-                    }
                     storage.Property.Store.SetLocalValue(storage, animStorage.CurrentValue);
                 };
                 AnimationStore.ApplyStop = function (animStorage) {
+                    var val = animStorage.StopValue;
+                    if (Fayde.Media.Animation.LogApply)
+                        console.log(getLogMessage("ApplyStop", animStorage, val));
                     var storage = animStorage.PropStorage;
-                    var sv = animStorage.StopValue;
-                    if (Fayde.Media.Animation.Debug && window.console) {
-                        console.log("ANIMATION:ApplyStop:" + storage.OwnerNode.Name + "->" + storage.Property.Name + "=" + (sv != null ? sv.toString() : ""));
-                    }
-                    storage.Property.Store.SetLocalValue(storage, animStorage.StopValue);
+                    storage.Property.Store.SetLocalValue(storage, val);
                 };
                 return AnimationStore;
             })();
             Animation.AnimationStore = AnimationStore;
+
+            function getLogMessage(action, animStorage, val) {
+                var anim = animStorage.Animation;
+                var name = Fayde.Media.Animation.Storyboard.GetTargetName(animStorage.Animation);
+                if (anim.HasManualTarget)
+                    name = anim.ManualTarget.Name;
+                var prop = Fayde.Media.Animation.Storyboard.GetTargetProperty(anim);
+                var msg = "ANIMATION:" + action + ":" + animStorage.ID + "[" + name + "](" + prop.Path + ")->";
+                msg += val === undefined ? "(undefined)" : (val === null ? "(null)" : val.toString());
+                return msg;
+            }
+            var lastId = 0;
+            function createId() {
+                return lastId++;
+            }
         })(Media.Animation || (Media.Animation = {}));
         var Animation = Media.Animation;
     })(Fayde.Media || (Fayde.Media = {}));
@@ -25258,14 +25262,32 @@ var Fayde;
                     return d.SetValue(Storyboard.TargetPropertyProperty, value);
                 };
 
+                Storyboard.ResolveTarget = function (timeline) {
+                    var res = {
+                        Target: undefined,
+                        Property: undefined
+                    };
+
+                    if (timeline.HasManualTarget) {
+                        res.Target = timeline.ManualTarget;
+                    } else {
+                        var targetName = Storyboard.GetTargetName(timeline);
+                        if (targetName)
+                            res.Target = timeline.FindName(targetName);
+                    }
+
+                    res.Property = Storyboard.GetTargetProperty(timeline);
+
+                    return res;
+                };
+
                 Storyboard.SetTarget = function (timeline, target) {
                     timeline.ManualTarget = target;
                 };
 
                 Storyboard.prototype.Begin = function () {
-                    if (Fayde.Media.Animation.Debug && window.console) {
-                        console.log("ANIMATION:Begin:" + this.__DebugString());
-                    }
+                    if (Fayde.Media.Animation.Log)
+                        console.log(getLogMessage("Storyboard.Begin", this, true));
                     this.Reset();
                     var error = new BError();
                     var promotedValues = [];
@@ -25292,9 +25314,8 @@ var Fayde;
                     }
                 };
                 Storyboard.prototype.Stop = function () {
-                    if (Fayde.Media.Animation.Debug && window.console) {
-                        console.log("ANIMATION:Stop:" + this.__DebugString());
-                    }
+                    if (Fayde.Media.Animation.Log)
+                        console.log(getLogMessage("Storyboard.Stop", this, false));
                     _super.prototype.Stop.call(this);
                     Fayde.Application.Current.UnregisterStoryboard(this);
                     var enumerator = this.Children.GetEnumerator();
@@ -25304,6 +25325,8 @@ var Fayde;
                 };
 
                 Storyboard.prototype.UpdateInternal = function (clockData) {
+                    if (Fayde.Media.Animation.Log)
+                        console.log(getLogMessage("Storyboard.UpdateInternal", this, false, clockData));
                     var enumerator = this.Children.GetEnumerator();
                     while (enumerator.MoveNext()) {
                         enumerator.Current.Update(clockData.CurrentTime.Ticks);
@@ -25344,29 +25367,6 @@ var Fayde;
                         return Duration.Automatic;
                     return new Duration(TimeSpan.FromTicks(fullTicks));
                 };
-
-                Storyboard.prototype.__DebugString = function () {
-                    var anims = [];
-                    var cur = "";
-
-                    var enumerator = this.Children.GetEnumerator();
-                    var animation;
-                    while (enumerator.MoveNext()) {
-                        animation = enumerator.Current;
-                        cur = "";
-                        cur += "(";
-                        cur += animation.constructor.name;
-                        cur += ":";
-                        cur += Storyboard.GetTargetName(animation);
-                        cur += ":";
-                        var path = Storyboard.GetTargetProperty(animation);
-                        cur += path ? path.Path : "";
-                        cur += ")";
-                        anims.push(cur);
-                    }
-
-                    return "[" + anims.join(",") + "]";
-                };
                 Storyboard.TargetNameProperty = DependencyProperty.RegisterAttached("TargetName", function () {
                     return String;
                 }, Storyboard);
@@ -25384,6 +25384,33 @@ var Fayde;
             })(Fayde.Media.Animation.Timeline);
             Animation.Storyboard = Storyboard;
             Fayde.RegisterType(Storyboard, "Fayde.Media.Animation", Fayde.XMLNS);
+
+            function getLogMessage(action, storyboard, full, clockData) {
+                var anims = [];
+                var cur = "";
+
+                var enumerator = storyboard.Children.GetEnumerator();
+                var animation;
+                while (enumerator.MoveNext()) {
+                    animation = enumerator.Current;
+                    cur = "";
+                    cur += "(";
+                    cur += animation.constructor.name;
+                    cur += ":";
+                    cur += Storyboard.GetTargetName(animation);
+                    cur += ":";
+                    var path = Storyboard.GetTargetProperty(animation);
+                    cur += path ? path.Path : "";
+                    cur += ")";
+                    anims.push(cur);
+                }
+                var msg = "ANIMATION:" + action + ":" + storyboard._ID;
+                if (clockData)
+                    msg += "(" + (clockData.Progress * 100).toFixed(0) + "%)";
+                if (full)
+                    msg += "->[" + anims.join(",") + "]";
+                return msg;
+            }
         })(Media.Animation || (Media.Animation = {}));
         var Animation = Media.Animation;
     })(Fayde.Media || (Fayde.Media = {}));
@@ -29510,19 +29537,11 @@ var Fayde;
             function flattenTimeline(callback, timeline, targetObject, targetPropertyPath) {
                 if (!timeline)
                     return;
-                if (timeline.HasManualTarget) {
-                    targetObject = timeline.ManualTarget;
-                } else {
-                    var targetName = Storyboard.GetTargetName(timeline);
-                    if (targetName) {
-                        var n = timeline.XamlNode.FindName(targetName);
-                        targetObject = (n ? n.XObject : null);
-                    }
-                }
-
-                var pp = Storyboard.GetTargetProperty(timeline);
-                if (pp)
-                    targetPropertyPath = pp;
+                var resolution = Storyboard.ResolveTarget(timeline);
+                if (resolution.Target)
+                    targetObject = resolution.Target;
+                if (resolution.Property)
+                    targetPropertyPath = resolution.Property;
 
                 if (timeline instanceof Storyboard) {
                     for (var i = 0, children = timeline.Children, len = children.Count; i < len; i++) {
@@ -31782,7 +31801,8 @@ var Fayde;
 
     (function (Media) {
         (function (Animation) {
-            Animation.Debug = false;
+            Animation.Log = false;
+            Animation.LogApply = false;
         })(Media.Animation || (Media.Animation = {}));
         var Animation = Media.Animation;
         (function (VSM) {

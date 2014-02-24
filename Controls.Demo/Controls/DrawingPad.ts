@@ -18,6 +18,7 @@ class Pen {
     Start(pos: Point) {
         this._Figure.StartPoint = pos;
     }
+
     Move(pos: Point) {
         var figure = this._Figure;
         var segment = new Fayde.Media.LineSegment();

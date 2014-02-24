@@ -17,7 +17,7 @@
           <!--<ResourceDictionary Source="Assets/Converters.fayde"/>-->
         </ResourceDictionary.MergedDictionaries>
      
-        <Color x:Key="DarkGray">#2B2F33</Color>
+        <!--<Color x:Key="DarkGray">#2B2F33</Color>
         <Color x:Key="MediumGray">#4F5459</Color>
         <Color x:Key="LightMediumGray">#D4D4D4</Color>
 
@@ -70,7 +70,7 @@
               <DropShadowEffect BlurRadius="3" ShadowDepth="3" Color="Black"/>
             </Setter.Value>
           </Setter>
-        </Style>
+        </Style>-->
       </ResourceDictionary>
     </Application.Resources>
   
@@ -85,7 +85,13 @@
         <RowDefinition/>
       </Grid.RowDefinitions>
       
-      <Border x:Name="BrandingBorder" Style="{StaticResource BrandingBorderStyle}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      
+      <Border x:Name="BrandingBorder" Style="{StaticResource BrandingBorderStyle}" Grid.ColumnSpan="3">
           <Grid>
             <StackPanel Style="{StaticResource BrandingStackPanelStyle}">
               <TextBlock x:Name="ApplicationNameTextBlock" Style="{StaticResource ApplicationNameStyle}"  Text="Fayde Controls Demo"/>
@@ -94,41 +100,39 @@
           </Grid>                                   
       </Border>
       
-      <Grid Grid.Row="1" Style="{StaticResource SubHeaderStyle}">    
-        <TextBlock Text="{Binding ElementName=ContentFrame, Path=Content.Title}" Margin="260,0,0,0" FontSize="20" FontWeight="Bold"/>          
-        <HyperlinkButton NavigateUri="http://fayde.wsick.com/" HorizontalAlignment="Right" Margin="0,0,10,0" TargetName="_blank" VerticalAlignment="Center" Content="What is Fayde"/>
-      </Grid>
+      <HyperlinkButton Grid.Row="1" NavigateUri="http://fayde.wsick.com/" HorizontalAlignment="left" Margin="10,0,10,0" TargetName="_blank" VerticalAlignment="Center" Content="What is Fayde"/>
+      <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=ContentFrame, Path=Content.Title}" Margin="5,0,0,0" FontSize="20" FontWeight="Bold"/>
+      <TextBlock Text="Source"  Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,0,0"/>
       
-      <Grid Grid.Row="2">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto"/>
-          <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        
-        <Grid x:Name="NavigationGrid" Style="{StaticResource NavigationGridStyle}">
-          <controls:TreeView ItemsSource="{Binding Menu}">
-            <controls:TreeView.ItemTemplate>
-              <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                <StackPanel Orientation="Horizontal">                  
-                  <HyperlinkButton NavigateUri="{Binding Url}" Content="{Binding Header}" TargetName="ContentFrame" />
-                </StackPanel>
-              </HierarchicalDataTemplate>
-            </controls:TreeView.ItemTemplate>
-          </controls:TreeView>
-        </Grid>
-        
-         <Border x:Name="ContentBorder" Style="{StaticResource ContentBorderStyle}" Grid.Column="1">
-           <ScrollViewer Style="{StaticResource PageScrollViewerStyle}">
-             <Frame x:Name="ContentFrame">
-               <Frame.UriMapper>
-                 <UriMapper>
-                   <UriMapping Uri="" MappedUri="Views/home.fayde" />
-                   <UriMapping Uri="{pageName}" MappedUri="Views/{pageName}.fayde"/>
-                 </UriMapper>
-               </Frame.UriMapper>
-             </Frame>
-           </ScrollViewer>
-        </Border>
+      <Grid x:Name="NavigationGrid" Grid.Row="2" Style="{StaticResource NavigationGridStyle}">
+        <controls:TreeView ItemsSource="{Binding Menu}">
+          <controls:TreeView.ItemTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+              <StackPanel Orientation="Horizontal">                  
+                <HyperlinkButton NavigateUri="{Binding Url}" Content="{Binding Header}" TargetName="ContentFrame" />
+              </StackPanel>
+            </HierarchicalDataTemplate>
+          </controls:TreeView.ItemTemplate>
+        </controls:TreeView>
       </Grid>
-    </Grid>
+        
+      <Border x:Name="ContentBorder" Grid.Row="2" Grid.Column="1" Style="{StaticResource ContentBorderStyle}">
+        <ScrollViewer Style="{StaticResource PageScrollViewerStyle}">
+          <Frame x:Name="ContentFrame">
+            <Frame.UriMapper>
+              <UriMapper>
+                <UriMapping Uri="" MappedUri="Views/home.fayde" />
+                <UriMapping Uri="{pageName}" MappedUri="Views/{pageName}.fayde"/>
+              </UriMapper>
+            </Frame.UriMapper>
+          </Frame>
+        </ScrollViewer>
+    </Border>
+        
+    <Border x:Name="SourceBorder" Style="{StaticResource ContentBorderStyle}" Grid.Row="2" Grid.Column="2">
+      <ScrollViewer Style="{StaticResource VerticalScrollViewerStyle}">
+        <ContentControl ContentUri="Views/sourceviewer.fayde" />
+      </ScrollViewer>
+    </Border>
+  </Grid>  
 </Application>

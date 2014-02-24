@@ -12,42 +12,43 @@
       <RowDefinition Height="Auto"></RowDefinition>
       <RowDefinition Height="*"></RowDefinition>
     </Grid.RowDefinitions>
+    
     <controls:TabControl Margin="5" x:Name="Tab1"  >
-            <controls:TabItem Header="One">
-                <TextBlock Text="Tab One Content" />
-            </controls:TabItem>
+        <controls:TabItem Header="One">
+            <TextBlock Text="Tab One Content" />
+        </controls:TabItem>
             
-            <controls:TabItem >
-                <controls:TabItem.HeaderTemplate>
-                  <DataTemplate>
-                    <Ellipse Width="20" Height="20" Fill="Blue" />
-                  </DataTemplate>
-                </controls:TabItem.HeaderTemplate>
-                <TextBlock Text="Tab Two Content"/>
-            </controls:TabItem>
-            
-            <controls:TabItem>
-                <controls:TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Tab 3"/>
-                        <Ellipse Width="20" Height="20" Fill="Blue" />
-                    </StackPanel>
-                </controls:TabItem.Header>
+        <controls:TabItem >
+            <controls:TabItem.HeaderTemplate>
+              <DataTemplate>
                 <Ellipse Width="20" Height="20" Fill="Blue" />
-            </controls:TabItem>
+              </DataTemplate>
+            </controls:TabItem.HeaderTemplate>
+            <TextBlock Text="Tab Two Content"/>
+        </controls:TabItem>
+            
+        <controls:TabItem>
+            <controls:TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Tab 3"/>
+                    <Ellipse Width="20" Height="20" Fill="Blue" />
+                </StackPanel>
+            </controls:TabItem.Header>
+            <Ellipse Width="20" Height="20" Fill="Blue" />
+        </controls:TabItem>
           
-            <controls:TabItem>
-                <controls:TabItem.Header>
-                    <Button Content="Button!" Width="100" />
-                </controls:TabItem.Header>
-                <ScrollViewer>
-                    <StackPanel>
-                        <TextBlock Text="Stack Panel with TextBlock and Ellipse" FontSize="18" />
-                        <Ellipse Width="20" Height="20" Fill="Blue" />
-                    </StackPanel>
-                </ScrollViewer>
-            </controls:TabItem>
-        </controls:TabControl>
+        <controls:TabItem>
+            <controls:TabItem.Header>
+                <Button Content="Button!" Width="100" />
+            </controls:TabItem.Header>
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock Text="Stack Panel with TextBlock and Ellipse" FontSize="18" />
+                    <Ellipse Width="20" Height="20" Fill="Blue" />
+                </StackPanel>
+            </ScrollViewer>
+        </controls:TabItem>
+    </controls:TabControl>
         
 		<Button Grid.Row="1"
               Margin="5"

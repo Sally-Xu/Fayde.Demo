@@ -293,11 +293,12 @@
   <!-- Page ScrollViewer Style -->
   <Style x:Key="PageScrollViewerStyle" TargetType="ScrollViewer">
     <Setter Property="BorderBrush" Value="Transparent"/>
-    <Setter Property="BorderThickness" Value="0,1,0,1"/>
-    <!--<Setter Property="Margin" Value="-58,-15,-58,-15"/>
-    <Setter Property="Padding" Value="58,0,58,0"/>-->
+    <Setter Property="BorderThickness" Value="0,1,0,1"/>  
     <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
     <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+  </Style>
+  <Style x:Key="VerticalScrollViewerStyle" TargetType="ScrollViewer" BasedOn="{StaticResource PageScrollViewerStyle}">  
+    <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
   </Style>
 
   <!-- Content Panel Style -->

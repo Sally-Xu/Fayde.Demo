@@ -8,11 +8,10 @@
   <Page.Resources>
   <Style TargetType="ListBox">
     <Setter Property="Margin" Value="3"/>
-  </Style>
-    
+  </Style>    
   </Page.Resources>
+  <Grid>
     <StackPanel Margin="5">
-
       <TextBlock Text="ListBox - MultiSelection Mode"/>
       <ListBox ItemsSource="{Binding CheckBoxListSelection}" SelectionMode="Extended">
         <ListBox.ItemTemplate>
@@ -58,4 +57,5 @@
         </ListBox.ItemTemplate>
       </ListBox>
     </StackPanel>
+  </Grid>
 </Page>
