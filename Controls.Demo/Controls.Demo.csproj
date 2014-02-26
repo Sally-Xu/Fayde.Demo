@@ -32,6 +32,7 @@
     <Content Include="ViewModels\LocalizationViewModel.js" />
     <Content Include="ViewModels\TabViewModel.js" />
     <Content Include="ViewModels\ThemingViewModel.js" />
+    <Content Include="Views\gridsplitter.fayde" />
     <None Include="Views\map.fayde" />
     <None Include="Views\shapes.fayde" />
     <Content Include="web.config" />
@@ -167,7 +168,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fayde.0.9.7.19\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.7.19\build\Fayde.targets'))" />
-    <Error Condition="!Exists('..\packages\Fayde.0.9.8.8\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.8\build\Fayde.targets'))" />
+    <Error Condition="!Exists('..\packages\Fayde.0.9.8.10\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.10\build\Fayde.targets'))" />
   </Target>
-  <Import Project="..\packages\Fayde.0.9.8.8\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.8\build\Fayde.targets')" />
+  <Import Project="..\packages\Fayde.0.9.8.10\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.10\build\Fayde.targets')" />
 </Project>
