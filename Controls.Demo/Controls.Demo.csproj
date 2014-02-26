@@ -32,7 +32,9 @@
     <Content Include="ViewModels\LocalizationViewModel.js" />
     <Content Include="ViewModels\TabViewModel.js" />
     <Content Include="ViewModels\ThemingViewModel.js" />
-    <Content Include="Views\gridsplitter.fayde" />
+    <Content Include="Views\gridsplitter.fayde">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\map.fayde" />
     <None Include="Views\shapes.fayde" />
     <Content Include="web.config" />
@@ -91,7 +93,7 @@
     <TypeScriptCompile Include="ViewModels\DrawingPadViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\ItemsControlViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\LocalizationViewModel.ts" />
-    <TypeScriptCompile Include="ViewModels\Slider.ts" />
+    <TypeScriptCompile Include="ViewModels\SliderViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\SourceViewerViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\TabViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\ThemingViewModel.ts">
