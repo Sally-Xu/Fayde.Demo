@@ -1,0 +1,25 @@
+﻿<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:controls="lib:Fayde.Controls"
+      xmlns:viewmodels="ViewModels"
+      Title="Slider and Progress Bar Controls Demo">
+  <Page.DataContext>
+    <viewmodels:Slider/>
+  </Page.DataContext>
+  <StackPanel>
+    <TextBlock Text="Slider Control"/>
+    
+    <controls:NumericUpDown x:Name="SliderValue" DecimalPlaces="0" Increment="1" Value="30" />
+    
+    <Slider Value="{Binding ElementName=SliderValue, Path=Value, Mode=TwoWay}" Minimum="0" Maximum="100" Width="250" />
+    
+    <Slider Value="{Binding ElementName=SliderValue, Path=Value, Mode=TwoWay}" Minimum="0" Maximum="100" Height="100" Orientation="Vertical" />
+
+    <TextBlock Text="Progress Bar" Margin="0,15,0,0" />
+    
+    <ProgressBar Value="{Binding ElementName=SliderValue, Path=Value}" Height="20" Margin="0,5" />
+
+    <TextBlock Text="ProgressBar with Value=30, Width=200"></TextBlock>
+    <ProgressBar Value="{Binding ElementName=SliderValue, Path=Value}" Height="20" Width="200" Margin="0,5" />
+  </StackPanel>  
+</Page>

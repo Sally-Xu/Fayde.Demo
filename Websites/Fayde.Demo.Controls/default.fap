@@ -6,13 +6,14 @@
     xmlns:views="Views"
     xmlns:viewmodels="ViewModels"
     xmlns:controls="lib:Fayde.Controls"
-    Theme="lib/Fayde/Theme.Silverlight.xml">
+    Theme="Metro">
   
     <Application.Resources>
       
       <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
           <ResourceDictionary Source="Assets/Styles.fayde"/>
+          <ResourceDictionary Source="Assets/CustomListBoxStyles.fayde"/>
           <!--<ResourceDictionary Source="Assets/Converters.fayde"/>-->
         </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary> 

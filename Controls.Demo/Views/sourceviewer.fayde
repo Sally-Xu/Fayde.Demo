@@ -1,0 +1,21 @@
+﻿<Grid xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:controls="lib:Fayde.Controls"
+      xmlns:viewmodels="ViewModels">
+	<Grid.DataContext>
+    <viewmodels:SourceViewerViewModel/>
+	</Grid.DataContext>
+  
+   <controls:TabControl Margin="5" x:Name="Tab1">
+    <controls:TabItem Header="XAML">
+      <Grid Background="Wheat">
+        <TextBox HorizonatalAlignment="Stretch" VerticalAlignment="Stretch"  Text="{Binding XAMLSource}" TextWrapping="Wrap"  AcceptsReturn="True"/>
+      </Grid>      
+    </controls:TabItem>
+    <controls:TabItem Header="ViewModel">
+      <Grid Background="Wheat">
+        <TextBox HorizonatalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding ViewModelSource}" TextWrapping="Wrap"  AcceptsReturn="True" />
+      </Grid>
+    </controls:TabItem>
+  </controls:TabControl>
+</Grid>

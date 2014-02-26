@@ -25,14 +25,17 @@ define(["require", "exports", "Models/TreeData"], function(require, exports, Men
             item.Children.Add(new MenuItem("Tab Control", "Tab"));
             item.Children.Add(new MenuItem("Accordion", "Accordion"));
 
-            var item = new MenuItem("Layout Panels");
+            item = new MenuItem("Layout Panels");
             this.Menu.Add(item);
             item.Children.Add(new MenuItem("Grid", "TreeView"));
             item.Children.Add(new MenuItem("StackPanel", "Home"));
             item.Children.Add(new MenuItem("DockPanel", "TreeView"));
             item.Children.Add(new MenuItem("WrapPanel", "Home"));
 
-            var item = new MenuItem("DataVisualization");
+            item = new MenuItem("Localization", "Localization");
+            this.Menu.Add(item);
+
+            item = new MenuItem("DataVisualization");
             this.Menu.Add(item);
             item.Children.Add(new MenuItem("Area Series", "TreeView"));
             item.Children.Add(new MenuItem("Bar Series", "TreeView"));
@@ -44,10 +47,10 @@ define(["require", "exports", "Models/TreeData"], function(require, exports, Men
             item.Children.Add(new MenuItem("Stacked Series", "TreeView"));
             item.Children.Add(new MenuItem("TreeMap", "TreeView"));
 
-            var item = new MenuItem("Navigation", "Navigation");
+            item = new MenuItem("Navigation", "Navigation");
             this.Menu.Add(item);
 
-            var item = new MenuItem("Theming", "Theming");
+            item = new MenuItem("Theming", "Theming");
             this.Menu.Add(item);
         };
         return DefaultViewModel;
