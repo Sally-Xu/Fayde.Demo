@@ -1,6 +1,7 @@
 ﻿<Page xmlns="http://schemas.wsick.com/fayde"
       xmlns:x="http://schemas.wsick.com/fayde/x"
       xmlns:viewmodels="ViewModels"
+      xmlns:controls="lib:Fayde.Controls"
       Title="ItemsControl Demo">
   <Page.DataContext>
     <viewmodels:ItemsControlViewModel/>
@@ -56,6 +57,22 @@
             </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
+
+      <TextBlock Text="DomainUpDown" />
+
+      <controls:DomainUpDown Margin="5"  IsCyclic="True" ItemsSource="{Binding List}" Height="Auto" HorizontalAlignment="Left" Width="400" >
+        <controls:DomainUpDown.ItemTemplate>
+          <DataTemplate>
+
+              <TextBlock
+                Margin="4,2"
+                FontSize="34"
+                Text="{Binding Name}" />
+
+          </DataTemplate>
+        </controls:DomainUpDown.ItemTemplate>
+      </controls:DomainUpDown>
+      
     </StackPanel>
   </Grid>
 </Page>

@@ -5,16 +5,7 @@
       Title="Input Controls Demo">
   <Page.Resources>
     
-    <Style TargetType="TextBox">
-      <Setter Property="Margin" Value="3"/>
-    </Style>
-    <Style TargetType="TextBlock">
-      <Setter Property="Margin" Value="3"/>
-    </Style>
-    <Style TargetType="PasswordBox">
-      <Setter Property="Margin" Value="3"/>
-    </Style>
-    <Style TargetType="controls:NumericUpDown">
+    <Style TargetType="Control">
       <Setter Property="Margin" Value="3"/>
     </Style>
   </Page.Resources>
@@ -26,7 +17,10 @@
 
       <TextBlock Text="TextBox" />
       <TextBox Text="This is a TextBox" />
-      <TextBox Text="This is a Disabled TextBox" IsEnabled="false" />
+
+      <TextBox Text="This is a Readonly TextBox" IsReadOnly="True" />
+      
+      <TextBox Text="This is a Disabled TextBox" IsEnabled="False" />
 
       <TextBox Text="This is a TextBox with Multiline" AcceptsReturn="True" TextWrapping="Wrap" TextAlignment="Center" Height="100"/>
 
@@ -36,13 +30,16 @@
       <PasswordBox Password="Password" />
 
       <TextBlock Text="NumericUpDown" />
-      <controls:NumericUpDown DecimalPlaces="0" Increment="1" />
-      <controls:NumericUpDown DecimalPlaces="1" Increment="0.1" />
-      <controls:NumericUpDown DecimalPlaces="2" Increment="0.01" />
+      <StackPanel Orientation="Horizontal">
+        <controls:NumericUpDown Margin="5" DecimalPlaces="0" Increment="1" />
+        <controls:NumericUpDown Margin="5" DecimalPlaces="2" Increment="0.01" />
+      </StackPanel>
 
+     
       <TextBlock Text="DatePicker" />
       <TextBlock Text="Not Implemented yet" />
 
+      
       <TextBlock Text="Button" />
       <Button Content="Button" />
 

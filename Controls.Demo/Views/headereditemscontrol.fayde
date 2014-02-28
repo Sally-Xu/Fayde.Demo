@@ -1,0 +1,48 @@
+﻿<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:controls="lib:Fayde.Controls"
+      xmlns:viewmodels="ViewModels"
+      Title="Headered ItemsControl Demo">
+  
+  <Page.DataContext>
+    <viewmodels:ItemsControlViewModel/>
+  </Page.DataContext>
+  
+	  <Grid>
+      <!--<controls:HeaderedItemsControl ItemsSource="{Binding List}">    
+        <controls:HeaderedItemsControl.Header>
+          <TextBlock Text="Header" FontWeight="Bold" FontSize="16" />
+        </controls:HeaderedItemsControl.Header>
+        <controls:HeaderedItemsControl.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Margin="5">
+              <TextBlock Text="{Binding Name}"/>
+              <TextBox Text="{Binding Description, Mode=TwoWay}"/>
+            </StackPanel>
+          </DataTemplate>
+        </controls:HeaderedItemsControl.ItemTemplate>
+      </controls:HeaderedItemsControl>-->
+
+      <ListBox ItemsSource="{Binding Tree}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <controls:HeaderedItemsControl ItemsSource="{Binding Children}" >
+              <controls:HeaderedItemsControl.HeaderTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Header}" FontWeight="Bold" FontSize="16"/>
+                </DataTemplate>
+              </controls:HeaderedItemsControl.HeaderTemplate>
+             
+              <controls:HeaderedItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Margin="5">
+                    <TextBox Text="{Binding Header}"/>
+                  </StackPanel>
+                </DataTemplate>
+              </controls:HeaderedItemsControl.ItemTemplate>
+            </controls:HeaderedItemsControl>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+	  </Grid>
+</Page>

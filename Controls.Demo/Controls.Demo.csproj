@@ -36,6 +36,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="packages.config" />
+    <Content Include="Views\contextmenu.fayde" />
     <None Include="Views\map.fayde" />
     <None Include="Views\shapes.fayde" />
     <None Include="Views\headereditemscontrol.fayde" />

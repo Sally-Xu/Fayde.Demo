@@ -1,0 +1,34 @@
+﻿<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:controls="lib:Fayde.Controls"
+      xmlns:viewmodels="ViewModels"
+      Title="ContextMenu Demo">
+  <Page.DataContext>
+    <!--<viewmodels:ContextMenuViewModel/>-->
+  </Page.DataContext>
+  <Grid>
+    <TextBlock Text="Context Menu Test">
+      <controls:ContextMenuService.ContextMenu>
+        <controls:ContextMenu>
+          <controls:MenuItem Header="Move Up">
+            <controls:MenuItem.Icon>
+              <Rectangle Width="16" Height="16" Fill="Red"/>
+            </controls:MenuItem.Icon>
+          </controls:MenuItem>
+          <controls:MenuItem Header="Move Down">
+            <controls:MenuItem.Icon>
+              <Rectangle Width="16" Height="16" Fill="Green"/>
+            </controls:MenuItem.Icon>
+          </controls:MenuItem>
+          <controls:Separator/>
+          <controls:MenuItem Header="Delete">
+            <controls:MenuItem.Icon>
+              <Rectangle Width="16" Height="16" Fill="Blue"/>
+            </controls:MenuItem.Icon>
+          </controls:MenuItem>
+        </controls:ContextMenu>
+      </controls:ContextMenuService.ContextMenu>
+    </TextBlock>
+    
+  </Grid>
+</Page>

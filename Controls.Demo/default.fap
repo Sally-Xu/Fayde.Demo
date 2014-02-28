@@ -5,8 +5,7 @@
     xmlns:res="Resources"
     xmlns:views="Views"
     xmlns:viewmodels="ViewModels"
-    xmlns:controls="lib:Fayde.Controls"   
-    Theme="Metro">
+    xmlns:controls="lib:Fayde.Controls">
   
     <Application.Resources>
       
