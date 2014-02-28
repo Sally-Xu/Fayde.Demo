@@ -3,9 +3,7 @@
       xmlns:controls="lib:Fayde.Controls"
       xmlns:viewmodels="ViewModels"
       Title="Slider and Progress Bar Controls Demo">
-  <Page.DataContext>
-    <viewmodels:Slider/>
-  </Page.DataContext>
+
   <StackPanel>
     <TextBlock Text="Slider Control"/>
     

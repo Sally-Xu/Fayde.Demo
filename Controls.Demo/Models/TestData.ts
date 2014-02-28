@@ -1,5 +1,5 @@
 class TestData extends Fayde.MVVM.ObservableObject {
-    constructor(public Id: string, public Name: string) {
+    constructor(public Id: string, public Name: string, public Description?: string) {
         super();
     }
 }

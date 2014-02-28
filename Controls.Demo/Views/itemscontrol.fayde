@@ -13,7 +13,7 @@
   <Grid>
     <StackPanel Margin="5">
       <TextBlock Text="ListBox - MultiSelection Mode"/>
-      <ListBox ItemsSource="{Binding CheckBoxListSelection}" SelectionMode="Extended">
+      <ListBox ItemsSource="{Binding List}" SelectionMode="Multiple">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <TextBlock Text="{Binding Name}"/>
@@ -22,7 +22,7 @@
       </ListBox>
 
       <TextBlock Text="Checkbox List (Multiple Selection List)"/>
-      <ListBox Style="{StaticResource CheckBoxList}" ItemsSource="{Binding CheckBoxListSelection}"  SelectedItems="{Binding SelectedItems}">
+      <ListBox Style="{StaticResource CheckBoxList}" ItemsSource="{Binding List}"  SelectedItems="{Binding SelectedItems}">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <TextBlock Text="{Binding Name}"/>
@@ -31,7 +31,7 @@
       </ListBox>
       
       <TextBlock Text="ListBox - SingleSelection Mode, All 3 controls below share the same ItemsSource and SelectedItem with the ListBox above to show how Binding works"/>
-      <ListBox ItemsSource="{Binding RadioButtonListSelection}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+      <ListBox ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <TextBlock Text="{Binding Name}"/>
@@ -40,7 +40,7 @@
       </ListBox>
 
       <TextBlock Text="ComboBox "/>
-      <ComboBox ItemsSource="{Binding RadioButtonListSelection}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+      <ComboBox ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
         <ComboBox.ItemTemplate>
           <DataTemplate>
             <TextBlock Text="{Binding Name}"/>
@@ -49,7 +49,7 @@
       </ComboBox>
 
       <TextBlock Text="RadioButton List (Single Selection List)"/>
-      <ListBox Style="{StaticResource RadioButtonList}" ItemsSource="{Binding RadioButtonListSelection}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+      <ListBox Style="{StaticResource RadioButtonList}" ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
           <ListBox.ItemTemplate>
             <DataTemplate>
               <TextBlock Text="{Binding Name}"/>

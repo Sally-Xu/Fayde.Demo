@@ -1,15 +1,15 @@
 ﻿<Page xmlns="http://schemas.wsick.com/fayde"
       xmlns:x="http://schemas.wsick.com/fayde/x"
       xmlns:controls="lib:Fayde.Controls"
+      xmlns:viewmodels="ViewModels"
       Title="TreeView Demo">
+  <Page.DataContext>
+    <viewmodels:ItemsControlViewModel/>
+  </Page.DataContext>
   <StackPanel>
     <!-- Basic TreeView -->
-    <TextBlock Style="{StaticResource HeaderTextStyle}">
-      TreeView is a control that displays hierarchical data in a tree
-      structure with items that can expand and collapse.
-    </TextBlock>
-    
-    <controls:TreeView Margin="5">
+    <TextBlock TextWrap="Wrap">TreeView is a control that displays hierarchical data in a tree structure with items that can expand and collapse.</TextBlock>
+    <controls:TreeView Margin="5"> 
       <controls:TreeViewItem Header="Controls">
         <controls:TreeViewItem Header="AutoCompleteBox" />
         <controls:TreeViewItem Header="Expander" />
@@ -34,56 +34,15 @@
       property.  Objects of any type can be added and will be wrapped with
       TreeViewItems.
     </TextBlock>
-    
-    <!--<controls:TreeView Margin="5">
-      <controls:TreeViewItem Header="TreeViewItems">
-        <controls:TreeViewItem Header="Can be nested">
-          <controls:TreeViewItem Header="To any depth" />
-        </controls:TreeViewItem>
-        
-        <controls:TreeViewItem Header="And disabled" IsEnabled="False" />
-        <controls:TreeViewItem Header="And formatted" Foreground="Purple" FontStyle="Italic" FontSize="12" />
-        <controls:TreeViewItem Header="Or created">          
-          <controls:TreeViewItem Header="From UIElements (currently broken)">
-            <Button Content="Button" />
-            <CheckBox Content="CheckBox" />
-            <TextBox Text="TextBox" />
-          </controls:TreeViewItem>
-          <controls:TreeViewItem Header="Explicitly wrapped works though">
-            <controls:TreeViewItem>
-              <controls:TreeViewItem.Header>
-                <Button Content="Button" />
-              </controls:TreeViewItem.Header>
-            </controls:TreeViewItem>
-            <controls:TreeViewItem>
-              <controls:TreeViewItem.Header>
-                <CheckBox Content="CheckBox" />
-              </controls:TreeViewItem.Header>
-            </controls:TreeViewItem>
-            <controls:TreeViewItem>
-              <controls:TreeViewItem.Header>
-                <TextBox Text="TextBox" />
-              </controls:TreeViewItem.Header>
-            </controls:TreeViewItem>
-          </controls:TreeViewItem>
-        </controls:TreeViewItem>
-      </controls:TreeViewItem>
-      <controls:TreeViewItem Header="Setting Items">
-        <controls:TreeViewItem Header="Via Items">
-          <controls:TreeViewItem Header="First"/>
-          <controls:TreeViewItem Header="Second"/>
-          <controls:TreeViewItem Header="Third"/>
-        </controls:TreeViewItem>
-        --><!--<controls:TreeViewItem Header="Via ItemsSource">
-          <controls:TreeViewItem.ItemsSource>
-            <controls:ObservableObjectCollection>
-              <string>First</string>
-              <string>Second</string>
-              <string>Third</string>
-            </controls:ObservableObjectCollection>
-          </controls:TreeViewItem.ItemsSource>
-        </controls:TreeViewItem>--><!--
-      </controls:TreeViewItem>
-    </controls:TreeView>-->
+
+    <controls:TreeView Margin="5" ItemsSource="{Binding Tree}">
+      <controls:TreeView.ItemTemplate>
+          <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+              <HyperlinkButton Url="{Binding Url}" Content="{Binding Header}"/>
+            </StackPanel>
+          </HierarchicalDataTemplate>
+        </controls:TreeView.ItemTemplate>
+    </controls:TreeView>
   </StackPanel>
 </Page>

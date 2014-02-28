@@ -19,10 +19,9 @@ class DefaultViewModel extends Fayde.MVVM.ViewModelBase {
         item.Children.Add(new MenuItem("Slider and Progress Bar", "Slider"));
         item.Children.Add(new MenuItem("DatePicker", "DatePicker"));
         item.Children.Add(new MenuItem("Calendar", "Calendar"));
-        item.Children.Add(new MenuItem("GridSplitter", "GridSplitter"));
         item.Children.Add(new MenuItem("TreeView", "TreeView"));
         item.Children.Add(new MenuItem("Tab Control", "Tab"));
-        item.Children.Add(new MenuItem("Accordion", "Accordion"));
+        item.Children.Add(new MenuItem("HeaderedItemsControl", "HeaderedItemsControl"));
         
         item = new MenuItem("Layout Panels");
         this.Menu.Add(item);

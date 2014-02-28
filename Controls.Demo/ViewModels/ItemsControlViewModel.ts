@@ -1,16 +1,19 @@
 /// <reference path="../lib/Fayde/Fayde.d.ts" />
 import TestData = require("Models/TestData");
 
+import TreeData = require("Models/TreeData");
 
 class ItemsControlViewModel extends Fayde.MVVM.ViewModelBase {
 
-    private _radioButtonListSelection : Fayde.Collections.ObservableCollection<TestData> = new Fayde.Collections.ObservableCollection<TestData>();
-    private _checkBoxListSelection : Fayde.Collections.ObservableCollection<TestData> = new Fayde.Collections.ObservableCollection<TestData>();
-    get CheckBoxListSelection() {
-        return this._checkBoxListSelection;
+    private _list : Fayde.Collections.ObservableCollection<TestData> = new Fayde.Collections.ObservableCollection<TestData>();
+  
+    get List() {
+        return this._list;
     }
-    get RadioButtonListSelection() {
-        return this._radioButtonListSelection;
+  
+    private _tree: Fayde.Collections.ObservableCollection<TreeData> = new Fayde.Collections.ObservableCollection<TreeData>();
+    get Tree() {
+        return this._tree;
     }
 
     private _selectedItem: TestData;
@@ -31,11 +34,15 @@ class ItemsControlViewModel extends Fayde.MVVM.ViewModelBase {
     }
 
     Load() {
-        for (var i = 0; i < 5; i++)
-            this.RadioButtonListSelection.Add(new TestData((i + 1) + "", "Option " + (i + 1)));
+        for (var i = 1; i < 6; i++)
+            this._list.Add(new TestData(i + "", "Option " + i, "Some Description " + i));
 
-        for (var i = 0; i < 4; i++)
-            this.CheckBoxListSelection.Add(new TestData((i + 1) + "", "Option " + (i + 1)));
+        for (var i = 1; i < 5; i++){
+            var item = new TreeData("Header " + i);
+            this.Tree.Add(item);
+            for (var j = 1; j < 5; j++)
+                item.Children.Add(new TreeData("Child" + i + "_" + j, "Some Content " + i + "_" + j));
+        }  
     }
 }
 export = ItemsControlViewModel 
