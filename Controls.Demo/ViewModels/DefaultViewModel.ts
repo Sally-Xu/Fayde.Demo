@@ -26,7 +26,7 @@ class DefaultViewModel extends Fayde.MVVM.ViewModelBase {
         item.Children.Add(new MenuItem("ContextMenu", "ContextMenu"));
         item.Children.Add(new MenuItem("Drag and Drop Control", "DragDropControl"));
 
-        item = new MenuItem("Layout Panels");
+        item = new MenuItem("Layout");
         this.Menu.Add(item);
         item.Children.Add(new MenuItem("Grid", "TreeView"));
         item.Children.Add(new MenuItem("StackPanel", "StackPanel"));
@@ -34,6 +34,7 @@ class DefaultViewModel extends Fayde.MVVM.ViewModelBase {
         item.Children.Add(new MenuItem("WrapPanel", "WrapPanel"));
         item.Children.Add(new MenuItem("DockPanel", "DockPanel"));
         item.Children.Add(new MenuItem("GridSplitter", "GridSplitter"));
+        item.Children.Add(new MenuItem("RenderTransform", "RenderTransform"));
 
         item = new MenuItem("Shapes");
         this.Menu.Add(item);

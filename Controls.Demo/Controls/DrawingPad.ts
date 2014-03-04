@@ -71,16 +71,12 @@ class DrawingPad extends Fayde.Controls.Canvas {
         }
     }
 
-    OnTouchMove(e: Fayde.Input.TouchEventArgs) {        
+    OnTouchMove(e: Fayde.Input.TouchEventArgs) {
         if (this._current) {
             var tp = e.GetTouchPoint(this);
             console.log(tp.Position.toString());
             this._current.Move(tp.Position);
         }
-    }
-    OnTouchEnter(e: Fayde.Input.TouchEventArgs) {
-    }
-    OnTouchLeave(e: Fayde.Input.TouchEventArgs) {
     }
 }
 export = DrawingPad;

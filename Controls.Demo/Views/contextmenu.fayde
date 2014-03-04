@@ -8,13 +8,13 @@
   </Page.DataContext>
   <Grid>
     <TextBlock Text="Context Menu Test">
-      <controls:ContextMenuService.ContextMenu>
+      <!--<controls:ContextMenuService.ContextMenu>
         <controls:ContextMenu>
           <controls:MenuItem Header="Move Up">
             <controls:MenuItem.Icon>
               <Rectangle Width="16" Height="16" Fill="Red"/>
             </controls:MenuItem.Icon>
-          </controls:MenuItem>
+          </controls:MenuItem> 
           <controls:MenuItem Header="Move Down">
             <controls:MenuItem.Icon>
               <Rectangle Width="16" Height="16" Fill="Green"/>
@@ -27,7 +27,7 @@
             </controls:MenuItem.Icon>
           </controls:MenuItem>
         </controls:ContextMenu>
-      </controls:ContextMenuService.ContextMenu>
+      </controls:ContextMenuService.ContextMenu>-->
     </TextBlock>
     
   </Grid>
