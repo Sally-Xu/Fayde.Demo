@@ -17,6 +17,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="lib\ControlsEx\Themes\Default.theme.xml" />
     <Content Include="default.html" />
     <Content Include="lib\Fayde.Controls\Fayde.Controls.js" />
     <Content Include="lib\Fayde.Controls\Themes\Default.theme.xml" />
@@ -37,7 +38,9 @@
     </Content>
     <Content Include="packages.config" />
     <Content Include="Views\contextmenu.fayde" />
+    <Content Include="Views\childwindow.fayde" />
     <None Include="Views\map.fayde" />
+    <Content Include="Views\rendertransform.fayde" />
     <None Include="Views\shapes.fayde" />
     <None Include="Views\headereditemscontrol.fayde" />
     <Content Include="web.config" />
@@ -83,6 +86,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="lib\ControlsEx\ControlsEx.ts" />
     <TypeScriptCompile Include="Controls\DrawingPad.ts" />
     <TypeScriptCompile Include="lib\Fayde.Controls\Fayde.Controls.d.ts" />
     <TypeScriptCompile Include="lib\Fayde.Utility\Clipboard.ts" />
@@ -95,6 +99,7 @@
     <TypeScriptCompile Include="ViewModels\DrawingPadViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\ItemsControlViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\LocalizationViewModel.ts" />
+    <TypeScriptCompile Include="ViewModels\RenderTransformViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\SliderViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\SourceViewerViewModel.ts" />
     <TypeScriptCompile Include="ViewModels\TabViewModel.ts" />
@@ -166,12 +171,11 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
-  <Import Project="..\packages\Fayde.0.9.8.16\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.16\build\Fayde.targets')" />
+  <Import Project="..\packages\Fayde.0.9.8.17\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.17\build\Fayde.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fayde.0.9.8.16\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.16\build\Fayde.targets'))" />
+    <Error Condition="!Exists('..\packages\Fayde.0.9.8.17\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.17\build\Fayde.targets'))" />
   </Target>
-  
 </Project>

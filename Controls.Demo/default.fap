@@ -5,10 +5,10 @@
     xmlns:res="Resources"
     xmlns:views="Views"
     xmlns:viewmodels="ViewModels"
-    xmlns:controls="lib:Fayde.Controls">
+    xmlns:controls="lib:Fayde.Controls"
+    xmlns:controlsEx="lib:ControlsEx">
   
-    <Application.Resources>
-      
+    <Application.Resources>   
       <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
           <ResourceDictionary Source="Assets/Styles.fayde"/>
@@ -122,6 +122,7 @@
         <viewmodels:DefaultViewModel/>
       </Grid.DataContext>
       
+
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
@@ -177,5 +178,14 @@
         <ContentControl ContentUri="Views/sourceviewer.fayde" />
       </ScrollViewer>
     </Border>
+      
+      <!--<controlsEx:ChildWindow CanResize="True" x:Name="Cwindow">
+        <controlsEx:ChildWindow.Header>
+          <TextBlock Text="Window Title"/>
+        </controlsEx:ChildWindow.Header>
+        <Border>
+          <TextBlock Text="this is content of childwindow. You can drag me around"/>
+        </Border>
+      </controlsEx:ChildWindow>-->
   </Grid>  
 </Application>
