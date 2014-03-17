@@ -36,9 +36,9 @@
     <Content Include="Views\gridsplitter.fayde">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="packages.config" />
     <Content Include="Views\contextmenu.fayde" />
     <Content Include="Views\childwindow.fayde" />
+    <Content Include="packages.config" />
     <None Include="Views\map.fayde" />
     <Content Include="Views\rendertransform.fayde" />
     <None Include="Views\shapes.fayde" />
@@ -86,8 +86,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="lib\ControlsEx\ControlsEx.ts" />
     <TypeScriptCompile Include="Controls\DrawingPad.ts" />
+    <TypeScriptCompile Include="lib\ControlsEx\ControlsEx.ts" />
+    <TypeScriptCompile Include="lib\ControlsEx\Helper\Position.ts" />
     <TypeScriptCompile Include="lib\Fayde.Controls\Fayde.Controls.d.ts" />
     <TypeScriptCompile Include="lib\Fayde.Utility\Clipboard.ts" />
     <TypeScriptCompile Include="lib\Fayde.Utility\ResourceManager.ts" />

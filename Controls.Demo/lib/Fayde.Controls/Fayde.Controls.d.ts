@@ -1,38 +1,3 @@
-declare module Fayde {
-    enum Corner {
-        LeftTop = 0,
-        LeftBottom = 1,
-        RightTop = 2,
-        RightBottom = 3,
-    }
-    class Position {
-        static GetPosition(e: Fayde.FrameworkElement, relativeTo?: Fayde.FrameworkElement, p?: Corner): Point;
-    }
-}
-declare module Fayde.Controls {
-    class DraggableControl extends Controls.ContentControl {
-        public PositionChanged: MulticastEvent<EventArgs>;
-        public Resized: MulticastEvent<EventArgs>;
-        static MaxZIndex: number;
-        private _Transform;
-        private _CurrentPoint;
-        private _SizingDirection;
-        static CanResizeProperty: DependencyProperty;
-        public CanResize : boolean;
-        static OffsetXProperty: DependencyProperty;
-        static OffsetYProperty: DependencyProperty;
-        public OffsetX: number;
-        public OffsetY: number;
-        private OnOffsetXChanged(oldValue, newValue);
-        private OnOffsetYChanged(oldValue, newValue);
-        constructor();
-        public OnMouseLeftButtonDown(e: Fayde.Input.MouseButtonEventArgs): void;
-        public OnMouseLeftButtonUp(e: Fayde.Input.MouseButtonEventArgs): void;
-        public OnMouseMove(e: Fayde.Input.MouseButtonEventArgs): void;
-        private ResizeHitTest(pt);
-        private SetCursor();
-    }
-}
 declare module Fayde.Controls {
     class GridSplitter extends Controls.Control {
         private _Helper;

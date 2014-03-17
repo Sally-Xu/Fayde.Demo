@@ -179,12 +179,12 @@
       </ScrollViewer>
     </Border>
       
-      <!--<controlsEx:ChildWindow CanResize="True" x:Name="Cwindow">
+      <!--<controlsEx:ChildWindow IsModal="True">
         <controlsEx:ChildWindow.Header>
           <TextBlock Text="Window Title"/>
         </controlsEx:ChildWindow.Header>
         <Border>
-          <TextBlock Text="this is content of childwindow. You can drag me around"/>
+          <TextBlock Text="this childwindow on root"/>
         </Border>
       </controlsEx:ChildWindow>-->
   </Grid>  

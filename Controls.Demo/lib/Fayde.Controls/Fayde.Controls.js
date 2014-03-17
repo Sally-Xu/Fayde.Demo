@@ -1,219 +1,9 @@
-﻿var Fayde;
-(function (Fayde) {
-    (function (Corner) {
-        Corner[Corner["LeftTop"] = 0] = "LeftTop";
-        Corner[Corner["LeftBottom"] = 1] = "LeftBottom";
-        Corner[Corner["RightTop"] = 2] = "RightTop";
-        Corner[Corner["RightBottom"] = 3] = "RightBottom";
-    })(Fayde.Corner || (Fayde.Corner = {}));
-    var Corner = Fayde.Corner;
-
-    var Position = (function () {
-        function Position() {
-        }
-        Position.GetPosition = function (e, relativeTo, p) {
-            if (typeof relativeTo === "undefined") { relativeTo = null; }
-            if (typeof p === "undefined") { p = 0 /* LeftTop */; }
-            var gt = e.TransformToVisual(relativeTo);
-            if (p == 0 /* LeftTop */)
-                return gt.Transform(new Point(0, 0));
-            if (p == 1 /* LeftBottom */)
-                return gt.Transform(new Point(0, e.ActualHeight));
-            if (p == 2 /* RightTop */)
-                return gt.Transform(new Point(e.ActualWidth, 0));
-            if (p == 3 /* RightBottom */)
-                return gt.Transform(new Point(e.ActualWidth, e.ActualHeight));
-            return gt.Transform(new Point(0, 0));
-        };
-        return Position;
-    })();
-    Fayde.Position = Position;
-})(Fayde || (Fayde = {}));
-/// <reference path="Helper/Position.ts" />
-var __extends = this.__extends || function (d, b) {
+﻿var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var Fayde;
-(function (Fayde) {
-    (function (Controls) {
-        var DraggableControl = (function (_super) {
-            __extends(DraggableControl, _super);
-            function DraggableControl() {
-                _super.call(this);
-                this.PositionChanged = new MulticastEvent();
-                this.Resized = new MulticastEvent();
-                this._Transform = new Fayde.Media.TranslateTransform();
-                this._CurrentPoint = null;
-                this._SizingDirection = "";
-                this.OffsetX = 0;
-                this.OffsetY = 0;
-                this.DefaultStyleKey = this.constructor;
-                this.RenderTransform = this._Transform;
-            }
-            Object.defineProperty(DraggableControl.prototype, "CanResize", {
-                get: function () {
-                    return this.GetValue(DraggableControl.CanResizeProperty);
-                },
-                set: function (value) {
-                    this.SetValue(DraggableControl.CanResizeProperty, value);
-                },
-                enumerable: true,
-                configurable: true
-            });
-
-            DraggableControl.prototype.OnOffsetXChanged = function (oldValue, newValue) {
-                if (oldValue != newValue)
-                    this._Transform.X = newValue;
-            };
-            DraggableControl.prototype.OnOffsetYChanged = function (oldValue, newValue) {
-                if (oldValue != newValue)
-                    this._Transform.Y = newValue;
-            };
-
-            DraggableControl.prototype.OnMouseLeftButtonDown = function (e) {
-                _super.prototype.OnMouseLeftButtonDown.call(this, e);
-                if (e.Handled)
-                    return;
-                this.CaptureMouse();
-                this._CurrentPoint = e.GetPosition(null);
-
-                this.Opacity *= 0.8;
-                this.CaptureMouse();
-                var zIndex = this.GetValue(Fayde.Controls.Canvas.ZIndexProperty);
-                if (zIndex > DraggableControl.MaxZIndex)
-                    DraggableControl.MaxZIndex = zIndex + 1;
-                else if (zIndex < DraggableControl.MaxZIndex)
-                    DraggableControl.MaxZIndex++;
-                this.SetValue(Fayde.Controls.Canvas.ZIndexProperty, DraggableControl.MaxZIndex);
-            };
-
-            DraggableControl.prototype.OnMouseLeftButtonUp = function (e) {
-                _super.prototype.OnMouseLeftButtonUp.call(this, e);
-                if (this._CurrentPoint !== null) {
-                    this.Opacity = 1;
-                    this._CurrentPoint = null;
-                }
-                this.ReleaseMouseCapture();
-                this._SizingDirection = "";
-            };
-
-            DraggableControl.prototype.OnMouseMove = function (e) {
-                _super.prototype.OnMouseMove.call(this, e);
-                var newPoint = e.GetPosition(null);
-                if (this._CurrentPoint !== null) {
-                    var change = new Point(newPoint.X - this._CurrentPoint.X, newPoint.Y - this._CurrentPoint.Y);
-
-                    //Make sure the Point is withing Application.Current.RootVisual
-                    var p0 = Fayde.Position.GetPosition(this);
-                    var p1 = Fayde.Position.GetPosition(this.VisualParent, null, 3 /* RightBottom */);
-                    if (this._SizingDirection === "") {
-                        //if (this.OffsetX + change.X > p0.X &&
-                        //    this.OffsetY + change.Y > p0.Y &&
-                        //    this.OffsetX + change.X + this.ActualWidth < p1.X &&
-                        //    this.OffsetY + change.Y + this.ActualHeight < p1.Y) {
-                        this.OffsetX += change.X;
-                        this.OffsetY += change.Y;
-                        this.PositionChanged.Raise(this, null);
-                        //}
-                    } else {
-                        if (newPoint.X > p0.X && newPoint.Y > p0.Y && newPoint.X < p1.X && newPoint.Y < p1.Y) {
-                            if (this._SizingDirection.indexOf("n") > -1 && this.ActualHeight - change.Y > 2 && (this.MaxHeight != Number.NaN && this.ActualHeight < this.MaxHeight && change.Y < 0 || this.MinHeight != Number.NaN && this.ActualHeight > this.MinHeight && change.Y > 0)) {
-                                this.OffsetY += change.Y;
-                                this.Height = this.ActualHeight + change.Y;
-                                this.PositionChanged.Raise(this, null);
-                                this.Resized.Raise(this, null);
-                            }
-                            if (this._SizingDirection.indexOf("s") > -1 && this.ActualHeight + change.Y > 2 && (this.MaxHeight !== Number.NaN && this.ActualHeight < this.MaxHeight && change.Y > 0 || this.MinHeight !== Number.NaN && this.ActualHeight > this.MinHeight && change.Y < 0)) {
-                                this.Height = this.ActualHeight + change.Y;
-                                this.Resized.Raise(this, null);
-                            }
-                            if (this._SizingDirection.indexOf("w") > -1 && this.ActualWidth - change.X > 2 && (this.MaxWidth != Number.NaN && this.ActualWidth < this.MaxWidth && change.X < 0 || this.MinWidth != Number.NaN && this.ActualWidth > this.MinWidth && change.X > 0)) {
-                                this.OffsetX += change.X;
-                                this.Width = this.ActualWidth + change.X;
-                                this.PositionChanged.Raise(this, null);
-                                this.Resized.Raise(this, null);
-                            }
-                            if (this._SizingDirection.indexOf("e") > -1 && this.ActualWidth + change.X > 2 && (this.MaxWidth != Number.NaN && this.ActualWidth < this.MaxWidth && change.X > 0 || this.MinWidth != Number.NaN && this.ActualWidth > this.MinWidth && change.X < 0)) {
-                                this.Width = this.ActualWidth + change.X;
-                                this.Resized.Raise(this, null);
-                            }
-                        }
-                    }
-                    this._CurrentPoint = newPoint;
-                } else {
-                    // Check to see if mouse is on a resize area
-                    if (this.CanResize) {
-                        this.ResizeHitTest(newPoint);
-                        this.SetCursor();
-                    }
-                }
-            };
-
-            DraggableControl.prototype.ResizeHitTest = function (pt) {
-                var x0 = pt.X;
-                var y0 = pt.Y;
-
-                var P = Fayde.Position.GetPosition(this);
-
-                var x1 = P.X;
-                var y1 = P.Y;
-                var x2 = x1 + this.ActualWidth;
-                var y2 = y1 + this.ActualHeight;
-
-                // Corners
-                if (Math.abs(x0 - x1) < 6 && Math.abs(y0 - y1) < 6)
-                    this._SizingDirection = "nw";
-                else if (Math.abs(x0 - x1) < 6 && Math.abs(y2 - y0) < 6)
-                    this._SizingDirection = "sw";
-                else if (Math.abs(x2 - x0) < 6 && Math.abs(y2 - y0) < 6)
-                    this._SizingDirection = "se";
-                else if (Math.abs(x2 - x0) < 6 && Math.abs(y0 - y1) < 6)
-                    this._SizingDirection = "ne";
-                else if (Math.abs(y0 - y1) < 4)
-                    this._SizingDirection = "n";
-                else if (Math.abs(x2 - x0) < 4)
-                    this._SizingDirection = "e";
-                else if (Math.abs(y2 - y0) < 4)
-                    this._SizingDirection = "s";
-                else if (Math.abs(x0 - x1) < 4)
-                    this._SizingDirection = "w";
-                else
-                    this._SizingDirection = "";
-            };
-
-            DraggableControl.prototype.SetCursor = function () {
-                if (this._SizingDirection == "n" || this._SizingDirection == "s")
-                    this.Cursor = 6 /* SizeNS */;
-                else if (this._SizingDirection == "w" || this._SizingDirection == "e")
-                    this.Cursor = 7 /* SizeWE */;
-                else
-                    this.Cursor = 0 /* Default */;
-            };
-            DraggableControl.MaxZIndex = 1;
-
-            DraggableControl.CanResizeProperty = DependencyProperty.Register("CanResize", function () {
-                return Boolean;
-            }, DraggableControl, null);
-
-            DraggableControl.OffsetXProperty = DependencyProperty.Register("OffsetX", function () {
-                return Number;
-            }, DraggableControl, 0, function (d, args) {
-                return d.OnOffsetXChanged(args.OldValue, args.NewValue);
-            });
-            DraggableControl.OffsetYProperty = DependencyProperty.Register("OffsetY", function () {
-                return Number;
-            }, DraggableControl, 0, function (d, args) {
-                return d.OnOffsetYChanged(args.OldValue, args.NewValue);
-            });
-            return DraggableControl;
-        })(Fayde.Controls.ContentControl);
-        Controls.DraggableControl = DraggableControl;
-    })(Fayde.Controls || (Fayde.Controls = {}));
-    var Controls = Fayde.Controls;
-})(Fayde || (Fayde = {}));
 var Fayde;
 (function (Fayde) {
     (function (Controls) {
@@ -354,8 +144,6 @@ var Fayde;
             return GridSplitter;
         })(Fayde.Controls.Control);
         Controls.GridSplitter = GridSplitter;
-        Fayde.Controls.TemplateVisualStates(GridSplitter, { GroupName: "CommonStates", Name: "Normal" }, { GroupName: "CommonStates", Name: "MouseOver" }, { GroupName: "CommonStates", Name: "Disabled" }, { GroupName: "FocusStates", Name: "Unfocused" }, { GroupName: "FocusStates", Name: "Focused" });
-        Fayde.Controls.TemplateParts(GridSplitter, { Name: "HorizontalTemplate", Type: Fayde.FrameworkElement }, { Name: "VerticalTemplate", Type: Fayde.FrameworkElement });
     })(Fayde.Controls || (Fayde.Controls = {}));
     var Controls = Fayde.Controls;
 })(Fayde || (Fayde = {}));
@@ -1308,7 +1096,6 @@ var Fayde;
     })(Fayde.Controls || (Fayde.Controls = {}));
     var Controls = Fayde.Controls;
 })(Fayde || (Fayde = {}));
-/// <reference path="Primitives/MenuBase.ts" />
 var Fayde;
 (function (Fayde) {
     (function (Controls) {
@@ -1569,7 +1356,6 @@ var Fayde;
     })(Fayde.Controls || (Fayde.Controls = {}));
     var Controls = Fayde.Controls;
 })(Fayde || (Fayde = {}));
-/// <reference path="Spinner.ts" />
 var Fayde;
 (function (Fayde) {
     (function (Controls) {
@@ -1613,7 +1399,7 @@ var Fayde;
                 this.ValueChanging.Raise(this, e);
             };
             UpDownBase.prototype.OnValueChanged = function (e) {
-                this.ValueChanged.Raise(this, e); //WTF: compiler choking without cast for some odd reason
+                this.ValueChanged.Raise(this, e);
                 this.SetTextBoxText();
             };
 
@@ -1801,7 +1587,6 @@ var Fayde;
     })(Fayde.Controls || (Fayde.Controls = {}));
     var Controls = Fayde.Controls;
 })(Fayde || (Fayde = {}));
-/// <reference path="UpDownBase.ts" />
 var Fayde;
 (function (Fayde) {
     (function (Controls) {
@@ -2231,7 +2016,6 @@ var Fayde;
     })(Fayde.Controls || (Fayde.Controls = {}));
     var Controls = Fayde.Controls;
 })(Fayde || (Fayde = {}));
-/// <reference path="Primitives/MenuBase.ts" />
 var Fayde;
 (function (Fayde) {
     (function (Controls) {
@@ -2349,8 +2133,6 @@ var Fayde;
     })(Fayde.Controls || (Fayde.Controls = {}));
     var Controls = Fayde.Controls;
 })(Fayde || (Fayde = {}));
-/// <reference path="UpDownBase.ts" />
-/// <reference path="Spinner.ts" />
 var Fayde;
 (function (Fayde) {
     (function (Controls) {
@@ -4860,4 +4642,3 @@ var Fayde;
     })(Fayde.Controls || (Fayde.Controls = {}));
     var Controls = Fayde.Controls;
 })(Fayde || (Fayde = {}));
-//# sourceMappingURL=Fayde.Controls.js.map

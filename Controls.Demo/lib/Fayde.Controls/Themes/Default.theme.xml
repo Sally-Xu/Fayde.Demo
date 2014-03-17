@@ -1435,7 +1435,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--<ResourceDictionary.MergedDictionaries>
-      <ResourceDictionary Source="lib/Fayde.Controls/Themes/Default/ChildWindow.xml"/>
-    </ResourceDictionary.MergedDictionaries>-->
 </ResourceDictionary>
