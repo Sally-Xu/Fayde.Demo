@@ -132,10 +132,11 @@
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
       
-      <Border x:Name="BrandingBorder" Style="{StaticResource BrandingBorderStyle}" Grid.ColumnSpan="3">
+      <Border x:Name="BrandingBorder" Style="{StaticResource BrandingBorderStyle}" Grid.ColumnSpan="4">
           <Grid>
             <StackPanel Style="{StaticResource BrandingStackPanelStyle}">
               <TextBlock x:Name="ApplicationNameTextBlock" Style="{StaticResource ApplicationNameStyle}"  Text="Fayde Controls Demo"/>
@@ -149,7 +150,7 @@
       <TextBlock Text="Source"  Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,0,0"/>
       
       <Grid x:Name="NavigationGrid" Grid.Row="2" Style="{StaticResource NavigationGridStyle}">
-        <controls:TreeView ItemsSource="{Binding Menu}">
+        <controls:TreeView ItemsSource="{Binding Menu}" SelectedItem="{Binding CurrentItem, Mode=TwoWay}">
           <controls:TreeView.ItemTemplate>
             <HierarchicalDataTemplate ItemsSource="{Binding Children}">
               <StackPanel Orientation="Horizontal">                  
@@ -172,10 +173,14 @@
           </Frame>
         </ScrollViewer>
     </Border>
-        
-    <Border x:Name="SourceBorder" Style="{StaticResource ContentBorderStyle}" Grid.Row="2" Grid.Column="2">
+      <controls:GridSplitter
+             Grid.Row="2"
+             Grid.Column="2"
+             VerticalAlignment="Stretch"
+               />
+    <Border x:Name="SourceBorder" Style="{StaticResource ContentBorderStyle}" Grid.Row="2" Grid.Column="3" >
       <ScrollViewer Style="{StaticResource VerticalScrollViewerStyle}">
-        <ContentControl ContentUri="Views/sourceviewer.fayde" />
+        <ContentControl ContentUri="Views/sourceviewer.fayde"/>
       </ScrollViewer>
     </Border>
       

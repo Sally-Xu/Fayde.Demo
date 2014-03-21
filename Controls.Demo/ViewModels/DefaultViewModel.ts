@@ -1,6 +1,7 @@
 /// <reference path="../lib/Fayde/Fayde.d.ts" />
 
 import MenuItem = require("Models/TreeData");
+import SourceViewerViewModel = require("ViewModels/SourceViewerViewModel");
 
 class DefaultViewModel extends Fayde.MVVM.ViewModelBase {
     Menu: Fayde.Collections.ObservableCollection<MenuItem> = new Fayde.Collections.ObservableCollection<MenuItem>();
@@ -8,6 +9,20 @@ class DefaultViewModel extends Fayde.MVVM.ViewModelBase {
     constructor() {
         super();
         this.Load();
+    }
+
+    private _currentItem: MenuItem;
+    get CurrentItem() : MenuItem{
+        return this._currentItem;
+    }
+    set CurrentItem(value: MenuItem) {
+        this._currentItem = value;
+        this.SourceVM.PageName = value.Url;
+    }
+
+    private _sourceViewModel: SourceViewerViewModel = new SourceViewerViewModel();
+    get SourceVM(): SourceViewerViewModel {
+        return this._sourceViewModel;
     }
 
     Load() {

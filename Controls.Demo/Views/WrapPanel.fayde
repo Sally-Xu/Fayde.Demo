@@ -1,0 +1,20 @@
+﻿<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:controls="lib:Fayde.Controls"
+      xmlns:controlsEx="lib:ControlsEx"
+      xmlns:viewmodels="ViewModels"
+      Title="TreeView Demo">
+  <Page.DataContext>
+  </Page.DataContext>
+
+  <controlsEx:WrapPanel x:Name="ManualTextWrapping" >
+    <Rectangle Fill="Red" Width="200" Height="200"/>
+    <Rectangle Fill="Green" Width="200" Height="200"/>
+    <Rectangle Fill="Blue" Width="200" Height="200"/>
+    <Rectangle Fill="Yellow" Width="200" Height="200"/>
+    <Rectangle Fill="Red" Width="200" Height="200"/>
+    <Rectangle Fill="Green" Width="200" Height="200"/>
+    <Rectangle Fill="Blue" Width="200" Height="200"/>
+    <Rectangle Fill="Yellow" Width="200" Height="200"/>
+  </controlsEx:WrapPanel>
+</Page>

@@ -22,7 +22,7 @@
       
       <TextBox Text="This is a Disabled TextBox" IsEnabled="False" />
 
-      <TextBox Text="This is a TextBox with Multiline" AcceptsReturn="True" TextWrapping="Wrap" TextAlignment="Center" Height="100"/>
+      <TextBox Text="This is a TextBox with Multiline" Width="400" AcceptsReturn="True" TextWrapping="Wrap" Height="100"/>
 
       <TextBox Text="This is a TextBox with Flow from Right to Left" Direction="RightToLeft" TextAlignment="Right" />
 

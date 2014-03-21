@@ -34,7 +34,7 @@ class ItemsControlViewModel extends Fayde.MVVM.ViewModelBase {
     }
 
     Load() {
-        for (var i = 1; i < 6; i++)
+        for (var i = 1; i < 10; i++)
             this._list.Add(new TestData(i + "", "Option " + i, "Some Description " + i));
 
         for (var i = 1; i < 5; i++){

@@ -1,0 +1,36 @@
+﻿<Page xmlns="http://schemas.wsick.com/fayde"
+      xmlns:x="http://schemas.wsick.com/fayde/x"
+      xmlns:controlsEx="lib:ControlsEx"
+      xmlns:controls="lib:Fayde.Controls"
+      xmlns:viewmodels="ViewModels"
+      Title="Child Window Demo">
+	  <Grid>
+      <controlsEx:ChildWindow x:Name="Cwindow" IsModal="True">
+        <controlsEx:ChildWindow.Header>
+          <TextBlock Text="Modal Window" FontWeight="Bold" Margin="2"/>
+        </controlsEx:ChildWindow.Header>
+        <Grid Margin="10,10,10,10">
+          <TextBlock Text="Modal Childwindow"/>
+        </Grid>
+      </controlsEx:ChildWindow>
+
+      <controlsEx:ChildWindow CanResize="True" x:Name="Cwindow2"  Margin="0,100,0,0">
+        <controlsEx:ChildWindow.Header>
+          <TextBlock Text="Non-Modal Window" FontWeight="Bold" Margin="2"/>
+        </controlsEx:ChildWindow.Header>
+        <Grid Margin="10,10,10,10">
+          <TextBlock Text="this is content of childwindow"/>
+        </Grid>
+      </controlsEx:ChildWindow>
+      
+      
+      <controls:DraggableControl HorizontalAlignment="Left" VerticalAlignment="Top" CanResize="True" Margin="0,200,0,0">
+        <Border Background="Orange">
+          <StackPanel>
+            <ToggleButton Content="Open Model Window" IsChecked="{Binding ElementName=Cwindow, Path=IsOpen, Mode=TwoWay}"/>
+            <ToggleButton Content="Open ChildWindow" IsChecked="{Binding ElementName=Cwindow2, Path=IsOpen, Mode=TwoWay}"/>         
+          </StackPanel>
+        </Border>
+      </controls:DraggableControl>
+	  </Grid>
+</Page>

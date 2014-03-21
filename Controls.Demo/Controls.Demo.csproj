@@ -19,6 +19,7 @@
   <ItemGroup>
     <Content Include="lib\ControlsEx\Themes\Default.theme.xml" />
     <Content Include="default.html" />
+    <Content Include="lib\ControlsEx\Themes\Default\ChildWindow.xml" />
     <Content Include="lib\Fayde.Controls\Fayde.Controls.js" />
     <Content Include="lib\Fayde.Controls\Themes\Default.theme.xml" />
     <Content Include="lib\Fayde.Controls\Themes\Metro.theme.xml" />
@@ -27,17 +28,12 @@
     <Content Include="lib\Fayde\Themes\Metro.theme.xml" />
     <Content Include="lib\requirejs\require.js" />
     <Content Include="lib\requirejs\text.js" />
-    <Content Include="ViewModels\DefaultViewModel.js" />
-    <Content Include="ViewModels\DrawingPadViewModel.js" />
-    <Content Include="ViewModels\ItemsControlViewModel.js" />
-    <Content Include="ViewModels\LocalizationViewModel.js" />
-    <Content Include="ViewModels\TabViewModel.js" />
-    <Content Include="ViewModels\ThemingViewModel.js" />
     <Content Include="Views\gridsplitter.fayde">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\contextmenu.fayde" />
     <Content Include="Views\childwindow.fayde" />
+    <None Include="faydedemo.pubxml" />
     <Content Include="packages.config" />
     <None Include="Views\map.fayde" />
     <Content Include="Views\rendertransform.fayde" />
@@ -55,8 +51,6 @@
     <Content Include="Assets\Converters.fayde" />
     <Content Include="Assets\Styles.fayde" />
     <Content Include="Assets\CustomListBoxStyles.fayde" />
-    <None Include="faydedemo - FTP.pubxml" />
-    <None Include="faydedemo - Web Deploy.pubxml" />
     <None Include="FileSystem.pubxml" />
     <Content Include="Views\BasicControls.fayde" />
     <Content Include="Views\input.fayde" />
@@ -70,14 +64,11 @@
     <Content Include="Views\itemscontrol.fayde" />
     <Content Include="Views\localization.fayde" />
     <Content Include="Views\theming.fayde" />
-    <Content Include="ViewModels\ThemingViewModel.js.map" />
-    <Content Include="ViewModels\TabViewModel.js.map" />
-    <Content Include="ViewModels\LocalizationViewModel.js.map" />
-    <Content Include="ViewModels\ItemsControlViewModel.js.map" />
-    <Content Include="ViewModels\DrawingPadViewModel.js.map" />
-    <Content Include="ViewModels\DefaultViewModel.js.map" />
-    <Content Include="Views\sourceviewer.fayde" />
+    <Content Include="Views\sourceviewer.fayde">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\slider.fayde" />
+    <Content Include="Views\wrappanel.fayde" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -112,6 +103,7 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Images\" />
+    <Folder Include="lib\ControlsEx\Themes\Metro\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\cn\AppRC.resx">
@@ -172,11 +164,11 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
-  <Import Project="..\packages\Fayde.0.9.8.17\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.17\build\Fayde.targets')" />
+  <Import Project="..\packages\Fayde.0.9.8.19\build\Fayde.targets" Condition="Exists('..\packages\Fayde.0.9.8.19\build\Fayde.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fayde.0.9.8.17\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.17\build\Fayde.targets'))" />
+    <Error Condition="!Exists('..\packages\Fayde.0.9.8.19\build\Fayde.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fayde.0.9.8.19\build\Fayde.targets'))" />
   </Target>
 </Project>

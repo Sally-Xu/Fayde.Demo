@@ -1,0 +1,39 @@
+﻿<Page
+    xmlns="http://schemas.wsick.com/fayde"
+    xmlns:x="http://schemas.wsick.com/fayde/x"
+    xmlns:controls="lib:Fayde.Controls"
+    xmlns:viewmodels ="ViewModels"
+    Title="RenderTransform Demo">
+  <Grid ShowGridLines="True">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+
+    <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+      <TextBlock Text="X:"/>
+      <controls:NumericUpDown x:Name="XValue" DecimalPlaces="0" Increment="1" Value="10" />
+      <TextBlock Text="Y:"/>
+      <controls:NumericUpDown x:Name="YValue" DecimalPlaces="0" Increment="1" Value="30" />
+      <TextBox Text="Test"/>
+    </StackPanel>
+    
+    <Button Content="Move Me" FontSize="20" Grid.Row="1">
+      <Button.RenderTransform>
+        <TranslateTransform X="{Binding ElementName=XValue, Path=Value}" Y="{Binding ElementName=YValue, Path=Value}"/>
+      </Button.RenderTransform>
+    </Button>
+
+    <Button Content="Button" FontSize="20" Grid.Row="2" >
+      <Button.RenderTransform>
+        <TranslateTransform X="40" Y="40"/>
+      </Button.RenderTransform>
+    </Button>
+  </Grid>
+</Page>

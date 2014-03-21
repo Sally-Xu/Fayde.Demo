@@ -12,25 +12,36 @@ class SourceViewerViewModel  extends Fayde.MVVM.ViewModelBase {
         return this._viewModelSource;
     } 
 
-    PageName: string;
-
+    private _pageName : string;
+    get PageName(): string{
+        return this._pageName;
+    }
+    set PageName(value: string) {
+        if (this._pageName !== value) {
+            this._pageName = value;
+            this.Load();
+        }
+    }
     constructor() {
         super();
-        this.Load();
-    }
-    Load() {
         this.PageName = "home";
+    }
+
+    Load() {
         var d = defer();
-        var url = "text!Views/" + this.PageName + ".fayde";
-        var _self = this;
-        require([url], function (doc) {
-            _self._xamlSource = doc;
-            _self.OnPropertyChanged("XAMLSource");
-        });    
-                    
-        //var jsdoc = require("ViewModels/DefaultViewModel.js");
-        //this._xamlSource = "<Grid/>";
-        this._viewModelSource = "Test";
+        if (this.PageName !== undefined) {
+            var url = "text!Views/" + this.PageName + ".fayde";
+            var _self = this;
+            require([url], function (doc) {
+                _self._xamlSource = doc;
+                _self.OnPropertyChanged("XAMLSource");
+            });  
+        }
+        //url = "text!ViewModels/" + this.PageName + "ViewModel.ts";
+        //require([url], function (doc) {
+        //    _self._viewModelSource = doc;
+        //    _self.OnPropertyChanged("ViewModelSource");
+        //});         
     }
 }
 export = SourceViewerViewModel 
