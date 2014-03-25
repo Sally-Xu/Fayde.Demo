@@ -5,6 +5,6 @@
     xmlns:controls="lib:ControlsEx">
 
   <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="lib/Fayde.ControlsEx/Themes/Default/ChildWindow.xml"/>
+    <!--<ResourceDictionary Source="lib/Fayde.ControlsEx/Themes/Default/ChildWindow.xml"/>-->
   </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
