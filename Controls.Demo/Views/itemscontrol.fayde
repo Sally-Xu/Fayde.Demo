@@ -24,7 +24,7 @@
 
       <TextBlock Text="Checkbox List (Multiple Selection List)" MaxHeight="200"/>
       <ListBox Style="{StaticResource CheckBoxList}" ItemsSource="{Binding List}"  SelectedItems="{Binding SelectedItems}">
-        <ListBox.ItemTemplate>
+        <ListBox.ItemTemplate> 
           <DataTemplate>
             <TextBlock Text="{Binding Name}"/>
           </DataTemplate>

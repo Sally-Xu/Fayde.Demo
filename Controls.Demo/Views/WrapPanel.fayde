@@ -4,17 +4,44 @@
       xmlns:controlsEx="lib:ControlsEx"
       xmlns:viewmodels="ViewModels"
       Title="TreeView Demo">
+  <Page.Resources>
+    <ItemsPanelTemplate x:Key="VerticalWrapPanel">
+      <controlsEx:WrapPanel Orientation="Vertical"/>
+    </ItemsPanelTemplate>
+    
+    <ItemsPanelTemplate x:Key="HorizontalWrapPanel">
+      <controlsEx:WrapPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+  </Page.Resources>
+  
   <Page.DataContext>
+    <viewmodels:ItemsControlViewModel/>
   </Page.DataContext>
+  
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    
+    <controlsEx:WrapPanel Orientation="Horizontal" Grid.Row="0">
+      <Rectangle Fill="Red" Width="50" Height="50" Margin="5"/>
+      <Rectangle Fill="Green" Width="50" Height="50" Margin="5" />
+      <Rectangle Fill="Blue" Width="50" Height="50" Margin="5" />
+      <Rectangle Fill="Yellow" Width="50" Height="50" Margin="5"/>
+      <Rectangle Fill="Red" Width="50" Height="50" Margin="5"/>
+      <Rectangle Fill="Green" Width="50" Height="50" Margin="5"/>
+      <Rectangle Fill="Blue" Width="50" Height="50" Margin="5"/>
+      <Rectangle Fill="Yellow" Width="50" Height="50" Margin="5"/>
+    </controlsEx:WrapPanel>
 
-  <controlsEx:WrapPanel x:Name="ManualTextWrapping" >
-    <Rectangle Fill="Red" Width="200" Height="200"/>
-    <Rectangle Fill="Green" Width="200" Height="200"/>
-    <Rectangle Fill="Blue" Width="200" Height="200"/>
-    <Rectangle Fill="Yellow" Width="200" Height="200"/>
-    <Rectangle Fill="Red" Width="200" Height="200"/>
-    <Rectangle Fill="Green" Width="200" Height="200"/>
-    <Rectangle Fill="Blue" Width="200" Height="200"/>
-    <Rectangle Fill="Yellow" Width="200" Height="200"/>
-  </controlsEx:WrapPanel>
+    <ListBox ItemsSource="{Binding List}" Grid.Row="1" ItemsPanel="{StaticResource HorizontalWrapPanel}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Name}" Width="50"/>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </Grid>
+  
 </Page>

@@ -3,38 +3,41 @@
 /// <reference path="Helper/Position.ts" />
 module ControlsEx {
 
-    class OrientedSize {
+    //class OrientedSize {
 
-        Direct: number;
-        Indirect: number;
+    //    Direct: number = 0;
+    //    Indirect: number = 0;
 
-        get Width(): number {
-            return this.Orientation === Fayde.Orientation.Horizontal ? this.Direct : this.Indirect;
-        }
-        set Width(value: number) {
-            if (this.Orientation === Fayde.Orientation.Horizontal) {
-                this.Direct = value;
-            } else {
-                this.Indirect = value;
-            }
-        }
+    //    get Width(): number {
+    //        return this.Orientation === Fayde.Orientation.Horizontal ? this.Direct : this.Indirect;
+    //    }
+    //    set Width(value: number) {
+    //        if (this.Orientation === Fayde.Orientation.Horizontal) {
+    //            this.Direct = value;
+    //        } else {
+    //            this.Indirect = value;
+    //        }
+    //    }
 
-        get Height(): number {
-            return this.Orientation !== Fayde.Orientation.Horizontal ? this.Direct : this.Indirect;
-        }
-        set Height(value: number) {
-            if (this.Orientation !== Fayde.Orientation.Horizontal) {
-                this.Direct = value;
-            } else {
-                this.Indirect = value;
-            }
-        }
-        constructor(public Orientation: Fayde.Orientation, width?: number, height?: number) {
-            this.Width = width;
-            this.Height = height;
-        }
-
-    }
+    //    get Height(): number {
+    //        return this.Orientation !== Fayde.Orientation.Horizontal ? this.Direct : this.Indirect;
+    //    }
+    //    set Height(value: number) {
+    //        if (this.Orientation === Fayde.Orientation.Vertical) {
+    //            this.Direct = value;
+    //        } else {
+    //            this.Indirect = value;
+    //        }
+    //    }
+    //    constructor(public Orientation: Fayde.Orientation, width?: number, height?: number) {
+    //        if (width != null) {
+    //            this.Width = width;
+    //        }
+    //        if (height != null) {
+    //            this.Height = height;
+    //        }
+    //    }
+    //}
 
     export class DraggableControl extends Fayde.Controls.ContentControl {
 
@@ -409,13 +412,12 @@ module ControlsEx {
     //    { Name: "VerticalTemplate", Type: FrameworkElement });
 
     export class WrapPanel extends Fayde.Controls.Panel {
-         
         static OrientationProperty = DependencyProperty.
             Register("Orientation", () => Fayde.Orientation, WrapPanel, Fayde.Orientation.Horizontal, (d, args) => (<WrapPanel>d).OnOrientationChanged(args.OldValue, args.NewValue));
         Orientation: Fayde.Orientation;
         private OnOrientationChanged(oldVal: Fayde.Orientation, newVal: Fayde.Orientation) {
             if (oldVal !== newVal) {
-                this.InvalidateMeasure();
+                this.OnPropertyChange();
             }
         }
 
@@ -424,7 +426,7 @@ module ControlsEx {
         ItemWidth: number;
         private OnItemWidthChanged(oldVal: number, newVal: number) {
             if (oldVal !== newVal) {
-                this.InvalidateMeasure();
+                this.OnPropertyChange();
             }
         }
 
@@ -433,103 +435,91 @@ module ControlsEx {
         ItemHeight: number;
         private OnItemHeightChanged(oldVal: number, newVal: number) {
             if (oldVal !== newVal) {
-                this.InvalidateMeasure();
+                this.OnPropertyChange();
             }
         }
-
-        ArrangeOverride(finalSize : size) : size {
-            var orientation = this.Orientation;
-            
-            var size = new OrientedSize(orientation);
-
-            var size2 = new OrientedSize(orientation, finalSize.Width, finalSize.Height);
-            var itemWidth = this.ItemWidth;
-            var itemHeight = this.ItemHeight;
-            var flag = !isNaN(itemWidth);
-            var flag2 = !isNaN(itemHeight);
-
-            var indirectOffset = 0.0;
-
-            var directDelta = (orientation === Fayde.Orientation.Horizontal) ? (flag ? itemWidth : null) : (flag2 ? itemHeight : null);
-            var children = this.Children;
-            var count = children.Count;
-            var lineStart = 0;
-            for (var i = 0; i < count; i++) {
-                var element = children[i];
-                var size3 = new OrientedSize(orientation, flag ? itemWidth : element.DesiredSize.Width, flag2 ? itemHeight : element.DesiredSize.Height);
-            
-                if (NumberEx.IsGreaterThanClose(size.Direct + size3.Direct, size2.Direct)) {
-                    this.ArrangeLine(lineStart, i, directDelta, indirectOffset, size.Indirect);
-                    indirectOffset += size.Indirect;
-                    size = size3;
-                    if (NumberEx.IsGreaterThanClose(size3.Direct, size2.Direct)) {
-                        this.ArrangeLine(i, ++i, directDelta, indirectOffset, size3.Indirect);
-                        indirectOffset += size.Indirect;
-                        size = new OrientedSize(orientation);
-                    }
-                    lineStart = i;
-                } else {
-                    size.Direct += size3.Direct;
-                    size.Indirect = Math.max(size.Indirect, size3.Indirect);
-                }
-            }
-            if (lineStart < count) {
-                this.ArrangeLine(lineStart, count, directDelta, indirectOffset, size.Indirect);
-            }
-            return finalSize;
+        private OnPropertyChange() {
+            this.InvalidateMeasure();
         }
 
-        MeasureOverride(constraint : size) : size {
-            var orientation = this.Orientation;
-            var size1 = new OrientedSize(orientation);
-            var size2 = new OrientedSize(orientation);
-            var size3 = new OrientedSize(orientation, constraint.Width, constraint.Height);
+        //MeasureOverride(available: size): size {
+        //    for (var i = 0; i < this.Children.Count; i++) {
+        //        var child = this.Children.GetValueAt(i);
+        //        child.Measure(size.fromRaw(available.Width, available.Height));
+        //    }
+        //    return super.MeasureOverride(available);
+        //} 
 
-            var itemWidth = this.ItemWidth;
-            var itemHeight = this.ItemHeight;
+        //ArrangeOverride(finalSize : size) : size {
+        //    var point = new Point(0, 0);
+        //    if (this.Orientation == Fayde.Orientation.Horizontal) {
+        //        var largestHeight = 0.0;
+        //        for (var i = 0; i < this.Children.Count; i++) {
+        //            var child = this.Children.GetValueAt(i);
 
-            var flag = !isNaN(itemWidth);
+        //            var r = new rect();
+        //            rect.set(r, point.X, point.Y, child.DesiredSize.Width, child.DesiredSize.Height);
+        //            child.Arrange(r);
 
-            var flag2 = !isNaN(itemHeight);
+        //            if (child.DesiredSize.Height > largestHeight)
+        //                largestHeight = child.DesiredSize.Height;
 
-            var availableSize = size.fromRaw(flag ? itemWidth : constraint.Width, flag2 ? itemHeight : constraint.Height);
+        //            point.X = point.X + child.DesiredSize.Width;
 
-            for(var element in this.Children) {
-                element.Measure(availableSize);
-                var size5 = new OrientedSize(orientation, flag ? itemWidth : element.DesiredSize.Width, flag2 ? itemHeight : element.DesiredSize.Height);
-                if (NumberEx.IsGreaterThanClose(size1.Direct + size5.Direct, size3.Direct)) {
-                    size2.Direct = Math.max(size1.Direct, size2.Direct);
-                    size2.Indirect += size1.Indirect;
-                    size1 = size5;
-                    if (NumberEx.IsGreaterThanClose(size5.Direct, size3.Direct)) {
-                        size2.Direct = Math.max(size5.Direct, size2.Direct);
-                        size2.Indirect += size5.Indirect;
-                        size1 = new OrientedSize(orientation);
-                    }
-                } else {
-                    size1.Direct += size5.Direct;
-                    size1.Indirect = Math.max(size1.Indirect, size5.Indirect);
-                }
-            }
-            size2.Direct = Math.max(size1.Direct, size2.Direct);
-            size2.Indirect += size1.Indirect;
-          
-            return size.fromRaw(size2.Width, size2.Height);
-        }
+        //            if ((i + 1) < this.Children.Count) {
+        //                if ((point.X + this.Children.GetValueAt(i + 1).DesiredSize.Width) > finalSize.Width) {
+        //                    point.X = 0;
+        //                    point.Y = point.Y + largestHeight;
+        //                    largestHeight = 0.0;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else {
+        //        var largestWidth = 0.0;
 
-        private ArrangeLine(lineStart: number, lineEnd : number, directDelta : number, indirectOffset : number, indirectGrowth : number) {
-            var x = 0.0;
-            var orientation = this.Orientation;
-            var flag = orientation === Fayde.Orientation.Horizontal;
-            var children = this.Children;
-            for (var i = lineStart; i < lineEnd; i++) {
-                var element = children[i];
-                var size1 = new OrientedSize(orientation, element.DesiredSize.Width, element.DesiredSize.Height);
-                var width = directDelta != null ? directDelta : size1.Direct;
-                var finalRect = flag ? rect.call(x, indirectOffset, width, indirectGrowth) : rect.call(indirectOffset, x, indirectGrowth, width);
-                element.Arrange(finalRect);
-                x += width;
-            }
-        }
+        //        for (var i = 0; i < this.Children.Count; i++) {
+        //            var child = this.Children.GetValueAt(i);
+        //            var r = new rect();
+        //            rect.set(r, point.X, point.Y, child.DesiredSize.Width, child.DesiredSize.Height);
+        //            child.Arrange(r);
+        //            if (child.DesiredSize.Width > largestWidth)
+        //                largestWidth = child.DesiredSize.Width;
+
+        //            point.Y = point.Y + child.DesiredSize.Height;
+
+        //            if ((i + 1) < this.Children.Count) {
+        //                if ((point.Y + this.Children.GetValueAt(i + 1).DesiredSize.Height) > finalSize.Height) {
+        //                    point.Y = 0;
+        //                    point.X = point.X + largestWidth;
+        //                    largestWidth = 0.0;
+        //                }
+        //            }
+        //            i++;
+        //        }
+        //    }
+        //    return super.ArrangeOverride(finalSize);
+        //}
+
+       
+        //private ArrangeLine(lineStart: number, lineEnd: number, directDelta: number, indirectOffset: number, indirectGrowth: number) {
+        //    var x = 0.0;
+        //    var orientation = this.Orientation;
+        //    var flag = orientation === Fayde.Orientation.Horizontal;
+        //    var children = this.Children;
+        //    for (var i = lineStart; i < lineEnd; i++) {
+        //        var element = children.GetValueAt(i);
+        //        var size1 = new OrientedSize(orientation, element.DesiredSize.Width, element.DesiredSize.Height);
+        //        var width = directDelta != null ? directDelta : size1.Direct;
+        //        var finalRect = new rect();
+        //        if (flag) {
+        //            rect.set(finalRect, x, indirectOffset, width, indirectGrowth);
+        //        } else {
+        //            rect.set(finalRect, indirectOffset, x, indirectGrowth, width);
+        //        }
+        //        element.Arrange(finalRect);
+        //        x += width;
+        //    }
+        //}
     }
 }
