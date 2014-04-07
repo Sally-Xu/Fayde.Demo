@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls.Demo", "Controls.Demo\Controls.Demo.csproj", "{CF47ACA4-139C-46DE-8198-448162E07638}"
 EndProject
@@ -10,6 +10,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fayde.Controls.Ex", "..\Fayde.BSick\Source\Ex\Fayde.Controls.Ex\Fayde.Controls.Ex.csproj", "{467D666F-61BD-4C07-BCFE-B1FDB31C770D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight.Controls.Test", "Silverlight.Controls.Test\Silverlight.Controls.Test.csproj", "{EFC8D425-3067-4669-8847-0479F75D4662}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DSIM.Models", "3DSIM.Models\3DSIM.Models.csproj", "{86F1288D-B65B-4381-86B5-C547C38B2380}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Node.Demo", "Node.Demo\Node.Demo.csproj", "{8D53F739-5DE7-4CD2-9F35-5BECF25DC779}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D0DBC7CB-0A29-4CCB-8D4D-1B36181C4D3E}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +42,14 @@ Global
 		{EFC8D425-3067-4669-8847-0479F75D4662}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFC8D425-3067-4669-8847-0479F75D4662}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFC8D425-3067-4669-8847-0479F75D4662}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86F1288D-B65B-4381-86B5-C547C38B2380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F1288D-B65B-4381-86B5-C547C38B2380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86F1288D-B65B-4381-86B5-C547C38B2380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86F1288D-B65B-4381-86B5-C547C38B2380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D53F739-5DE7-4CD2-9F35-5BECF25DC779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D53F739-5DE7-4CD2-9F35-5BECF25DC779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D53F739-5DE7-4CD2-9F35-5BECF25DC779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D53F739-5DE7-4CD2-9F35-5BECF25DC779}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,3 +20,13 @@ Controls.Demo/ViewModels/DefaultViewModel.js
 Controls.Demo/Controls/DrawingPad.js
 Controls.Demo/ViewModels/DrawingPadViewModel.js
 Controls.Demo/ViewModels/DefaultViewModel.js.map
+/Node.Demo/iisnode
+/Node.Demo/*.user
+/Node.Demo/*.map
+/Node.Demo/server.js.debug
+/Node.Demo/node_modules
+/Node.Demo/data
+/Node.Demo/lib/requirejs
+/Node.Demo/lib/Fayde
+/Node.Demo/lib/Fayde.Controls
+/Node.Demo/server.js

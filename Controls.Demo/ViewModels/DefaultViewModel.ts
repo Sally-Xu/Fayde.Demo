@@ -55,7 +55,8 @@ class DefaultViewModel extends Fayde.MVVM.ViewModelBase {
         this.Menu.Add(item);
         item.Children.Add(new MenuItem("Shapes", "Shapes"));
         item.Children.Add(new MenuItem("Map", "Map"));
-       
+        item.Children.Add(new MenuItem("Mesh", "Mesh"));
+
         item = new MenuItem("DataVisualization");
         this.Menu.Add(item);
         item.Children.Add(new MenuItem("Area Series", "TreeView"));
