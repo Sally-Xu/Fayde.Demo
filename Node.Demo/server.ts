@@ -47,27 +47,27 @@ app.get(apiObject, function (req, res) {
 
 // POST
 app.post(apiCollection, function (req, res) {
-    var object = req.body;
-    if (object._id == null) {
+    var data = req.body;
+    if (data._id == null) {
         res.send('/ object must contains _id for updating');
         return;
     }
     var collection = db.get(req.params.collectionName.toLowerCase());
-    collection.update({ _id: object._id }, object, false);
-    res.send('/ POST, object updated OK');
+    collection.update({ _id: data._id }, data, false);
+    res.send('/ Update OK');
 });
 
 // PUT
 app.put(apiCollection, function (req, res) {
-    var object = req.body;
+    var data = req.body;
     var collection = db.get(req.params.collectionName.toLowerCase());
-    collection.insert(object);    
-    res.send('/ PUT, object created OK');
+    collection.insert(data);    
+    res.send('/ Insert OK');
 });
 
 // DELETE
 app.delete(apiCollection, function (req, res) {
-    var filter = req.body;
+    var filter = JSON.parse(req.body);
     if (!filter) {
         res.send('/ DELETE Faile, no object to delete');
         return;

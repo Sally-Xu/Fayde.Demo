@@ -7,6 +7,36 @@
       <viewmodels:HomeViewModel/>
     </Page.DataContext>
     <Grid x:Name="LayoutRoot">
-     <controls:Mesh Width="500" Height="500"/>
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <ListBox ItemsSource="{Binding Todos}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+              </Grid.ColumnDefinitions>
+              <TextBlock Text="Task:" Grid.Column="0"/>
+              <TextBox Text="{Binding TaskName, Mode=TwoWay}" Grid.Column="1"/>
+              <TextBlock Text="{Binding TaskName}" Grid.Column="6"/>
+              <TextBlock Text="Description:" Grid.Column="2"/>
+              <TextBox Text="{Binding Description, Mode=TwoWay}" Grid.Column="3"/>
+              <TextBlock Text="Done:" Grid.Column="4"/>
+              <CheckBox IsChecked="{Binding Done, Mode=TwoWay}" Grid.Column="5"/>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      
+      <Button Content="Add Task" Command="{Binding AddCommand}" Width="100" Grid.Row="1"/>
+     <!--<controls:Mesh Width="500" Height="500"/>-->
     </Grid>
 </Page>
