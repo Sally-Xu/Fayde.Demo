@@ -16,21 +16,25 @@
           <DataTemplate>
             <Grid>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition  Width="100" />
+                <ColumnDefinition  Width="100" />
+                <ColumnDefinition  Width="100" />
+                <ColumnDefinition  Width="100" />
+                <ColumnDefinition  Width="100" />
+                <ColumnDefinition  Width="100" />
+                <ColumnDefinition  Width="100" />
+                <ColumnDefinition  Width="100" />
+                <ColumnDefinition  Width="100" />
               </Grid.ColumnDefinitions>
-              <TextBlock Text="Task:" Grid.Column="0"/>
-              <TextBox Text="{Binding TaskName, Mode=TwoWay}" Grid.Column="1"/>
-              <TextBlock Text="{Binding TaskName}" Grid.Column="6"/>
-              <TextBlock Text="Description:" Grid.Column="2"/>
-              <TextBox Text="{Binding Description, Mode=TwoWay}" Grid.Column="3"/>
-              <TextBlock Text="Done:" Grid.Column="4"/>
-              <CheckBox IsChecked="{Binding Done, Mode=TwoWay}" Grid.Column="5"/>
+              <TextBlock Text="ID:" Grid.Column="0"/>
+              <TextBlock Text="{Binding _id}" Grid.Column="1"/>
+              <TextBlock Text="Task:" Grid.Column="2"/>
+              <TextBox  Width="100"  Text="{Binding TaskName, Mode=TwoWay}" Grid.Column="3"/>
+              <TextBlock Text="{Binding TaskName}" Grid.Column="4"/>
+              <TextBlock Text="Description:" Grid.Column="5"/>
+              <TextBox  Width="100"  Text="{Binding Description, Mode=TwoWay}" Grid.Column="6"/>
+              <TextBlock Text="Done:" Grid.Column="7"/>
+              <CheckBox IsChecked="{Binding Done, Mode=TwoWay}" Grid.Column="8"/>
             </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>

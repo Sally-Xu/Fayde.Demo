@@ -1,23 +1,32 @@
 ﻿/// <reference path="server/typings/express/express.d.ts" />
 var http = require('http');
 var express = require('express');
-
+var path = require("path");
 var app = express.createServer();
+var application_root = __dirname;
 
 var home = process.env.deployPath || '';
 var api = home + '/api';
 var apiCollection = home + '/api/:collectionName';
 var apiObject = home + '/api/:collectionName/:id';
 
-var monk = require('monk');
-var db = monk('localhost/SIMDB');
+var monk = require('monk');  
+var db = monk('localhost/SIMDB'); // connect to SIMDB
 
-app.use(express.favicon());
-app.use(express.logger());
-//app.use(express.static(__dirname + '/public'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
+app.configure(function () {
+    app.use(express.favicon());
+    app.use(express.logger());
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(app.router);
+    app.use(express.static(path.join(application_root, "public")));
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.send(500, err.stack);
+});
 
 app.get(api, function (req, res) {
     res.send('hello world from api at ' + process.env.deployPath);
@@ -47,22 +56,29 @@ app.get(apiObject, function (req, res) {
 
 // POST
 app.post(apiCollection, function (req, res) {
-    var data = req.body;
-    if (data._id == null) {
-        res.send('/ object must contains _id for updating');
-        return;
-    }
+    var filter = req.body;
     var collection = db.get(req.params.collectionName.toLowerCase());
-    collection.update({ _id: data._id }, data, false);
-    res.send('/ Update OK');
+    collection.find(filter, {}, function (err, data) {
+        if (err) {
+            res.send("Error: " + err);
+        } else {
+            res.json(data);
+        }
+    });
 });
 
 // PUT
 app.put(apiCollection, function (req, res) {
     var data = req.body;
     var collection = db.get(req.params.collectionName.toLowerCase());
-    collection.insert(data);    
-    res.send('/ Insert OK');
+    if (data._id === "") {
+        data._id = null;
+        collection.insert(data);
+    }
+    else {
+        collection.update({ _id: data._id }, data, false);
+    }
+    res.send(data);
 });
 
 // DELETE
@@ -131,4 +147,4 @@ app.options(api, function (req, res) {
 
 //app.all('/api/*', requireAuthentication);
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT); // launch server
